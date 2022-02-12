@@ -15,7 +15,7 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
   return (
     <>
       <Head customMeta={customMeta} />
-      <header>
+      <header className="bg-emerald-400">
         <div className="max-w-5xl px-8 mx-auto">
           <div className="flex items-center justify-between py-6">
             <Navigation />
