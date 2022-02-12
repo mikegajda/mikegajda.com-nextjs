@@ -33,7 +33,7 @@ export const Index = ({ posts }: IndexProps): JSX.Element => {
 
           <div className="p-3">
             <h1 className="mb-2 text-3xl">
-              <Link as={`/posts/${post.slug}`} href={`/posts/[slug]`}>
+              <Link as={`/${post.slug}`} href={`/[slug]`}>
                 <a className="text-gray-900 dark:text-white dark:hover:text-emerald-400 ">
                   {post.title}
                 </a>
@@ -41,7 +41,7 @@ export const Index = ({ posts }: IndexProps): JSX.Element => {
             </h1>
             <p className="mb-3">{post.description}</p>
             <p>
-              <Link as={`/posts/${post.slug}`} href={`/posts/[slug]`}>
+              <Link as={`/${post.slug}`} href={`/[slug]`}>
                 <a>Read More</a>
               </Link>
             </p>
@@ -53,7 +53,7 @@ export const Index = ({ posts }: IndexProps): JSX.Element => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = getAllPosts(['date', 'description', 'slug', 'title', 'image']);
+  const posts = getAllPosts();
 
   return {
     props: { posts },
