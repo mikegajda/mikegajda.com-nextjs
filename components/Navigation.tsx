@@ -9,6 +9,9 @@ const Navigation = (): JSX.Element => {
       <Link href="/">
         <a className={`${commonHeaderStyles} font-bold`}>Mike Gajda</a>
       </Link>
+      <Link href="/posts/1">
+        <a className={`${commonHeaderStyles} px-6 py-4`}>Posts</a>
+      </Link>
       <Link href="/about">
         <a className={`${commonHeaderStyles} px-6 py-4`}>About</a>
       </Link>
