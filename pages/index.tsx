@@ -15,19 +15,24 @@ export const Index = ({ posts }: IndexProps): JSX.Element => {
   return (
     <Layout>
       {posts.map((post) => (
-        <article key={post.slug} className="mt-12 border-2 rounded-md">
+        <article
+          key={post.slug}
+          className="mt-8 rounded-lg border-2 border-gray-300 overflow-hidden shadow-[0_.15rem_.5rem_rgba(0,0,0,0.15)]"
+        >
           <div className="bg-gray-200 p-3 text-sm text-gray-500 dark:text-gray-400">
             {format(parseISO(post.date), 'MMMM dd, yyyy')}
           </div>
-          <Image
-            alt={`Bridge`}
-            src={`/images/bridge.jpg`}
-            width={1440}
-            height={960}
-            priority
-          />
+          {post.image && (
+            <Image
+              src={`${post.image}`}
+              layout="responsive"
+              width={1000}
+              height={666}
+            />
+          )}
+
           <div className="p-3">
-            <h1 className="mb-2 text-xl">
+            <h1 className="mb-2 text-3xl">
               <Link as={`/posts/${post.slug}`} href={`/posts/[slug]`}>
                 <a className="text-gray-900 dark:text-white dark:hover:text-emerald-400 ">
                   {post.title}
@@ -48,7 +53,7 @@ export const Index = ({ posts }: IndexProps): JSX.Element => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const posts = getAllPosts(['date', 'description', 'slug', 'title']);
+  const posts = getAllPosts(['date', 'description', 'slug', 'title', 'image']);
 
   return {
     props: { posts },
