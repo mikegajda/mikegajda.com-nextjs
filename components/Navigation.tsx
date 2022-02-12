@@ -3,7 +3,7 @@ import React from 'react';
 
 const Navigation = (): JSX.Element => {
   const commonHeaderStyles =
-    'text-gray-800 dark:text-white hover:text-gray-900 hover:underline underline-offset-8';
+    'text-gray-800 dark:text-gray-800 hover:text-gray-900 hover:underline underline-offset-8';
   return (
     <nav>
       <Link href="/">
