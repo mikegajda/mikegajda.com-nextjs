@@ -18,8 +18,8 @@ const ThemeSwitch = (): JSX.Element => {
   }
 
   const isDark = theme === 'dark';
-  const color = isDark ? '#fff' : '#000';
-  const maskColor = isDark ? '#000' : '#fff';
+  const color = isDark ? '#1F2937' : '#000';
+  const maskColor = isDark ? '#000' : '#34D399';
   return (
     <button
       className="theme-button"
@@ -31,7 +31,7 @@ const ThemeSwitch = (): JSX.Element => {
       <div className="moon-mask" />
       <style jsx>{`
         .theme-button {
-          opacity: 0.5;
+          opacity: 0.75;
           position: relative;
           border-radius: 5px;
           width: 42px;

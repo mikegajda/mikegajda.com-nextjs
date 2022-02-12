@@ -2,20 +2,23 @@ const { spacing } = require('tailwindcss/defaultTheme');
 
 module.exports = {
   mode: 'jit',
-  purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx}',
+    './components/**/*.{js,ts,jsx,tsx}',
+  ],
   darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            color: theme('colors.gray.700'),
+            color: theme('colors.gray.500'),
             a: {
-              color: theme('colors.blue.500'),
+              color: theme('colors.emerald.500'),
               '&:hover': {
-                color: theme('colors.blue.700'),
+                color: theme('colors.emerald.500'),
               },
-              code: { color: theme('colors.blue.400') },
+              code: { color: theme('colors.emerald.400') },
             },
             'h2,h3,h4': {
               'scroll-margin-top': spacing[32],
@@ -29,21 +32,21 @@ module.exports = {
           css: {
             color: theme('colors.gray.300'),
             a: {
-              color: theme('colors.blue.400'),
+              color: theme('colors.emerald.400'),
               '&:hover': {
-                color: theme('colors.blue.600'),
+                color: theme('colors.emerald.600'),
               },
-              code: { color: theme('colors.blue.400') },
+              code: { color: theme('colors.emerald.400') },
             },
             blockquote: {
-              borderLeftColor: theme('colors.gray.700'),
+              borderLeftColor: theme('colors.gray.600'),
               color: theme('colors.gray.300'),
             },
             'h2,h3,h4': {
               color: theme('colors.gray.100'),
               'scroll-margin-top': spacing[32],
             },
-            hr: { borderColor: theme('colors.gray.700') },
+            hr: { borderColor: theme('colors.gray.600') },
             ol: {
               li: {
                 '&:before': { color: theme('colors.gray.500') },
@@ -60,7 +63,7 @@ module.exports = {
             },
             tbody: {
               tr: {
-                borderBottomColor: theme('colors.gray.700'),
+                borderBottomColor: theme('colors.gray.600'),
               },
             },
           },
