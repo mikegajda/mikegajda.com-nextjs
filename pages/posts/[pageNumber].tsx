@@ -12,6 +12,7 @@ type Props = {
 type PageNavigationProps = {
   currentPage: number;
   totalPages: number;
+  basePath: string;
 };
 
 export const PageNavigation = (props: PageNavigationProps): JSX.Element => {
@@ -28,12 +29,18 @@ export const PageNavigation = (props: PageNavigationProps): JSX.Element => {
       : '';
   return (
     <div className={'clear-both'}>
-      <Link href="/posts/[pageNumber]" as={`/posts/${props.currentPage - 1}`}>
+      <Link
+        href={`/${props.basePath}/[pageNumber]`}
+        as={`/${props.basePath}/${props.currentPage - 1}`}
+      >
         <a className={`${buttonClass} ${previousNotAllowedClass} float-left`}>
           Previous
         </a>
       </Link>
-      <Link href="/posts/[pageNumber]" as={`/posts/${props.currentPage + 1}`}>
+      <Link
+        href={`/${props.basePath}/[pageNumber]`}
+        as={`/${props.basePath}/${props.currentPage + 1}`}
+      >
         <a className={`${buttonClass}  ${nextNotAllowed} float-right`}>Next</a>
       </Link>
     </div>
@@ -52,6 +59,7 @@ export const PaginatedPosts = ({ paginatedPosts }: Props): JSX.Element => {
       <PageNavigation
         currentPage={pageNumber}
         totalPages={paginatedPosts.length}
+        basePath="posts"
       />
     </Layout>
   );
