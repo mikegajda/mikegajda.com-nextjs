@@ -6,6 +6,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import { getAllPosts } from '../lib/api';
 import { PostType } from '../types/post';
+import { CloudfrontDynamicImage } from '../components/CloudinaryImage';
 
 type IndexProps = {
   posts: PostType[];
@@ -14,6 +15,12 @@ type IndexProps = {
 export const Index = ({ posts }: IndexProps): JSX.Element => {
   return (
     <Layout>
+      <CloudfrontDynamicImage
+        src={'IMG_1527.jpg'}
+        alt={'Vinal'}
+        width={3788}
+        height={2584}
+      />
       {posts.map((post) => (
         <article
           key={post.slug}
