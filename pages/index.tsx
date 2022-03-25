@@ -6,7 +6,7 @@ import React from 'react';
 import Layout from '../components/Layout';
 import { getAllPosts } from '../lib/api';
 import { PostType } from '../types/post';
-import { CloudfrontDynamicImage } from '../components/CloudinaryImage';
+import { ImagekitImage } from '../components/ImagekitImage';
 
 type IndexProps = {
   posts: PostType[];
@@ -15,12 +15,23 @@ type IndexProps = {
 export const Index = ({ posts }: IndexProps): JSX.Element => {
   return (
     <Layout>
-      <CloudfrontDynamicImage
-        src={'IMG_1527.jpg'}
-        alt={'Vinal'}
-        width={3788}
-        height={2584}
+      <ImagekitImage
+        src={'DSCF2004_9Dl0giw35.jpeg'}
+        width={1280}
+        height={844}
+        alt={'Fox Theatre'}
       />
+      <div>test</div>
+      <div>test</div>
+      <div>test</div>
+
+      <ImagekitImage
+        src={'DSCF2693_C5oeBk_LE.jpeg'}
+        width={4160}
+        height={6240}
+        alt={'Fox Theatre'}
+      />
+
       {posts.map((post) => (
         <article
           key={post.slug}

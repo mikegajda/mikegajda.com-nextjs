@@ -20,7 +20,7 @@ const getBlurredImageUrl = (src) => {
   return url;
 };
 
-const cloudfrontDynamicLoader = ({ src, width }) => {
+const cloudfrontDynamicLoader = ({ src, width }): string => {
   const imageRequest = JSON.stringify({
     bucket: 'cdn.dynamic-images.mikegajda.com',
     key: src,
