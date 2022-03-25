@@ -2,8 +2,10 @@ import Image from 'next/image';
 
 const imagekitBaseUrl = 'https://ik.imagekit.io/77hhna3u71rq/';
 
-const cloudfrontDynamicLoader = ({ src, width }) => {
-  const url = `${imagekitBaseUrl}/tr:w${width},pr-true/${src}`;
+const cloudfrontDynamicLoader = ({ src, width, quality }) => {
+  const url = `${imagekitBaseUrl}/tr:w-${width},q-integer:${
+    quality || 75
+  },pr-true/${src}`;
 
   return url;
 };
@@ -29,7 +31,7 @@ export const ImagekitImage = ({ src, alt }: ImagekitImageProps) => {
           alt={alt}
           layout={'fill'}
           objectFit="contain"
-          sizes="50vw"
+          sizes="75vw"
         />
       </div>
     </div>
