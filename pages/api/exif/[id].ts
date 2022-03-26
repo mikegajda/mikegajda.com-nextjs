@@ -6,6 +6,13 @@ export type ExifData = {
       Make: string;
       Model: string;
     };
+    exif: {
+      ExposureTime: number;
+      FNumber: string;
+      ISO: string;
+      LensModel: string;
+      ShutterSpeedValue: number;
+    };
     gps: {
       GPSLatitude: [number, number, number];
       GPSLatitudeRef: string;
