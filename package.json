@@ -28,6 +28,8 @@
   },
   "dependencies": {
     "date-fns": "^2.19.0",
+    "embla-carousel": "^6.2.0",
+    "embla-carousel-react": "^6.2.0",
     "gray-matter": "^4.0.2",
     "mdx-prism": "^0.3.3",
     "next": "^11.0.1",
