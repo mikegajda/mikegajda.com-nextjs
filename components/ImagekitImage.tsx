@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import { ExifData } from '../pages/api/exif/[id]';
 
 const imagekitBaseUrl = 'https://ik.imagekit.io/77hhna3u71rq/';
 
@@ -18,6 +20,19 @@ type ImagekitImageProps = {
 };
 
 export const ImagekitImage = ({ src, alt }: ImagekitImageProps) => {
+  const [data, setData] = useState<ExifData | undefined>(undefined);
+  const [isLoading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(`/api/exif/${src}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <div
       className={
@@ -33,6 +48,13 @@ export const ImagekitImage = ({ src, alt }: ImagekitImageProps) => {
           objectFit="contain"
           sizes="75vw"
         />
+      </div>
+      <div>{isLoading}</div>
+      <div>
+        <span>Make {data?.exif.image.Make}</span>
+      </div>
+      <div>
+        <span>Model {data?.exif.image.Model}</span>
       </div>
     </div>
   );
