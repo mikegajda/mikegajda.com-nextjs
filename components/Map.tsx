@@ -6,8 +6,7 @@ import {
 } from 'react-simple-maps';
 import { ExifData } from '../pages/api/exif/[id]';
 
-const geoUrl =
-  'https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json';
+const geoUrl = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json';
 
 type MapProps = {
   coordinates?: [number, number];
@@ -38,34 +37,38 @@ export const exifCoordsToMapCoords = (exifData: ExifData): [number, number] => {
 
 const MapChart = (props: MapProps) => {
   return (
-    <ComposableMap
-      projection="geoEqualEarth"
-      projectionConfig={{
-        // rotate: [58, 20, 0],
-        scale: 2000,
-        center: props ? props.coordinates : [0, 0],
-      }}
-    >
-      <Geographies geography={geoUrl}>
-        {({ geographies }) =>
-          geographies
-            // .filter((d) => d.properties.REGION_UN === 'Americas')
-            .map((geo) => (
-              <Geography
-                key={geo.rsmKey}
-                geography={geo}
-                fill="#EAEAEC"
-                stroke="#D6D6DA"
-              />
-            ))
-        }
-      </Geographies>
-      {props.coordinates ? (
-        <Marker key={name} coordinates={props.coordinates}>
-          <circle r={10} fill="#F00" stroke="#fff" strokeWidth={2} />
-        </Marker>
-      ) : null}
-    </ComposableMap>
+    <>
+      <ComposableMap
+        width={100}
+        height={100}
+        projection="geoEqualEarth"
+        projectionConfig={{
+          // rotate: [58, 20, 0],
+          scale: 400,
+          center: props ? props.coordinates : [0, 0],
+        }}
+      >
+        <Geographies geography={geoUrl}>
+          {({ geographies }) =>
+            geographies
+              // .filter((d) => d.properties.REGION_UN === 'Americas')
+              .map((geo) => (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  fill="#EAEAEC"
+                  stroke="#D6D6DA"
+                />
+              ))
+          }
+        </Geographies>
+        {props.coordinates ? (
+          <Marker key={name} coordinates={props.coordinates}>
+            <circle r={5} fill="#000" stroke="#fff" strokeWidth={1} />
+          </Marker>
+        ) : null}
+      </ComposableMap>
+    </>
   );
 };
 

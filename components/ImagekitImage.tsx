@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { ExifData } from '../pages/api/exif/[id]';
 import MapChart, { exifCoordsToMapCoords } from './Map';
-
 const imagekitBaseUrl = 'https://ik.imagekit.io/77hhna3u71rq/';
 
 const cloudfrontDynamicLoader = ({ src, width, quality }) => {
@@ -51,13 +50,21 @@ export const ImagekitImage = ({ src, alt }: ImagekitImageProps) => {
         />
       </div>
       <div>{isLoading}</div>
-      <div>
-        <span>Make {data?.exif.image.Make}</span>
+      {data && (
+        <div>
+          <div>
+            <span>Make {data?.exif.image.Make}</span>
+          </div>
+          <div>
+            <span>Model {data?.exif.image.Model}</span>
+          </div>
+        </div>
+      )}
+      <div className="w-36">
+        <MapChart
+          coordinates={data ? exifCoordsToMapCoords(data) : undefined}
+        />
       </div>
-      <div>
-        <span>Model {data?.exif.image.Model}</span>
-      </div>
-      <MapChart coordinates={data ? exifCoordsToMapCoords(data) : undefined} />
     </div>
   );
 };
