@@ -6,6 +6,12 @@ export type ExifData = {
       Make: string;
       Model: string;
     };
+    gps: {
+      GPSLatitude: [number, number, number];
+      GPSLatitudeRef: string;
+      GPSLongitude: [number, number, number];
+      GPSLongitudeRef: string;
+    };
   };
 };
 export const getExifData = async (src: string): Promise<ExifData> => {

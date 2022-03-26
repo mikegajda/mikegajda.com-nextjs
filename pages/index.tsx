@@ -7,7 +7,7 @@ import Layout from '../components/Layout';
 import { getAllPosts } from '../lib/api';
 import { PostType } from '../types/post';
 import { ImagekitImage } from '../components/ImagekitImage';
-import Slider from '../components/Slider';
+import MapChart from '../components/Map';
 
 type IndexProps = {
   posts: PostType[];
@@ -16,7 +16,7 @@ type IndexProps = {
 export const Index = ({ posts }: IndexProps): JSX.Element => {
   return (
     <Layout>
-      <Slider />
+      <MapChart />
       <ImagekitImage
         src={'DSCF2004_9Dl0giw35.jpeg'}
         width={1280}
