@@ -17,6 +17,12 @@ export const Index = ({ posts }: IndexProps): JSX.Element => {
     <Layout>
       <ImagekitImage
         wrapperClassName="my-4"
+        src={'adjustable-height-stools-3_bTkaCYkUH.jpg'}
+        title={'Adjustable Height Kitchen Stools'}
+      />
+
+      <ImagekitImage
+        wrapperClassName="my-4"
         src={'DSCF2004_9Dl0giw35.jpeg'}
         title={'Fox Theatre'}
       />

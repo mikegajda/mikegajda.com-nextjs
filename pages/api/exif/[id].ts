@@ -12,6 +12,7 @@ export type ExifData = {
       ISO: string;
       LensModel: string;
       ShutterSpeedValue: number;
+      FocalLength: number;
     };
     gps: {
       GPSLatitude: [number, number, number];
@@ -28,7 +29,7 @@ export const getExifData = async (src: string): Promise<ExifData> => {
     `Basic ${process.env.IMAGEKIT_BASE64_PRIVATE_KEY}`
   );
   const response = await fetch(
-    `https://api.imagekit.io/v1/metadata?url=https://ik.imagekit.io/77hhna3u71rq/${src}`,
+    `https://api.imagekit.io/v1/metadata?url=https://ik.imagekit.io/77hhna3u71rq/tr:w-1,q-integer:1,pr-true,tr:md-true/${src}`,
     {
       headers,
     }

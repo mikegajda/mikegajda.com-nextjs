@@ -19,6 +19,13 @@ type ImagekitImageProps = {
   title?: string;
 };
 
+export const exposureTimeToReaableTime = (exposureTime: number) => {
+  if (exposureTime < 1) {
+    return `1/${Math.round(1 / exposureTime)}s`;
+  } else {
+    return '${exposureTime}s';
+  }
+};
 export const ImagekitImage = ({
   src,
   alt,
@@ -37,7 +44,7 @@ export const ImagekitImage = ({
 
   return (
     <div className={wrapperClassName ? wrapperClassName : ''}>
-      {title && <h1 className="mb-1">{title}</h1>}
+      {title && <h1 className="mb-2">{title}</h1>}
       <div className="flex flex-row md:flex-none space-x-4">
         <div className="grow">
           <div
@@ -57,8 +64,15 @@ export const ImagekitImage = ({
               />
             </div>
           </div>
+          <p className="mt-2">
+            These stools were one of the biggest surprises while I was
+            furnishing this apartment. They match the island almost perfectly,
+            despite not being part of the same set. They serve as both a primary
+            place to eat meals and as additional seating around the TV for big
+            groups.
+          </p>
         </div>
-        <div className="flex-none">
+        <div className="flex-none sm:invisible md:visible">
           {data && (
             <>
               <p className="text-sm mb-0">
@@ -70,7 +84,11 @@ export const ImagekitImage = ({
                 {data?.exif.image.Model}
               </p>
               <p className="text-sm mb-0">
-                <span className="font-semibold">Apertature </span>
+                <span className="font-semibold">Focal Length </span>
+                {Math.round(data?.exif.exif.FocalLength * 1.5)}mm
+              </p>
+              <p className="text-sm mb-0">
+                <span className="font-semibold">Aperture </span>
                 {data?.exif.exif.FNumber}
               </p>
               <p className="text-sm mb-0">
@@ -79,7 +97,7 @@ export const ImagekitImage = ({
               </p>
               <p className="text-sm mb-0">
                 <span className="font-semibold">Shutter </span>
-                {data?.exif.exif.ShutterSpeedValue.toFixed(2)}
+                {exposureTimeToReaableTime(data?.exif.exif.ExposureTime)}
               </p>
             </>
           )}
