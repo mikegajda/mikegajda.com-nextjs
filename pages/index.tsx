@@ -6,8 +6,8 @@ import React from 'react';
 import Layout from '../components/Layout';
 import { getAllPosts } from '../lib/api';
 import { PostType } from '../types/post';
-import { ImagekitImage } from '../components/ImagekitImage';
-import Slider from '../components/Slider';
+import groq from 'groq';
+import sanityClient from '../lib/sanityClient';
 
 type IndexProps = {
   posts: PostType[];
@@ -16,8 +16,7 @@ type IndexProps = {
 export const Index = ({ posts }: IndexProps): JSX.Element => {
   return (
     <Layout>
-      <Slider />
-      <ImagekitImage
+      {/* <ImagekitImage
         src={'DSCF2004_9Dl0giw35.jpeg'}
         width={1280}
         height={844}
@@ -32,7 +31,7 @@ export const Index = ({ posts }: IndexProps): JSX.Element => {
         width={4160}
         height={6240}
         alt={'Fox Theatre'}
-      />
+      /> */}
 
       {posts.map((post) => (
         <article
@@ -74,6 +73,23 @@ export const Index = ({ posts }: IndexProps): JSX.Element => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const posts = getAllPosts();
+
+  const sanityPosts = await sanityClient.fetch(groq`
+  *[_type == "imageWrapper"]{
+    name,
+    "slug": slug.current,
+    ...
+   image.asset->
+  }
+  
+    `);
+
+  return {
+    props: {
+      posts,
+      sanityPosts,
+    },
+  };
 
   return {
     props: { posts },
