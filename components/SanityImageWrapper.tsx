@@ -53,23 +53,25 @@ export const SanityImageWrapper = ({
 }: SanityImageWrapperProps) => {
   return (
     <div className={wrapperClassName ? wrapperClassName : ''}>
-      {sanityImage.title && <h1 className="mb-2">{sanityImage.title}</h1>}
+      {sanityImage.title && (
+        <h1 className="mb-2 px-2 md:px-0">{sanityImage.title}</h1>
+      )}
       <div className="flex flex-col md:flex-row md:flex-none space-x-4">
         <div className="grow">
-          <div className={'bg-white p-4 aspect-[5/4] '}>
+          <div className={'bg-white p-4 aspect-[1/1] md:aspect-[5/4]'}>
             <div className={`relative h-full w-full`}>
               <Image
                 loader={sanityDynamicLoader}
                 src={sanityImage.url}
                 alt={sanityImage.title}
                 layout={'fill'}
-                className="rounded-md overflow-hidden"
+                className=" overflow-hidden"
                 objectFit="contain"
                 sizes="75vw"
               />
             </div>
           </div>
-          <p className="mt-2">{sanityImage.caption}</p>
+          <p className="mt-2 px-2 md:px-0">{sanityImage.caption}</p>
         </div>
         <div className="hidden md:flex flex-row md:flex-col">
           {sanityImage.metadata.exif && (
