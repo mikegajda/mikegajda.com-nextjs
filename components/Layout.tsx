@@ -16,7 +16,7 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
     <>
       <Head customMeta={customMeta} />
       <header className="bg-emerald-400">
-        <div className="max-w-5xl px-8 mx-auto">
+        <div className="max-w-6xl px-8 mx-auto">
           <div className="flex items-center justify-between py-2">
             <Navigation />
             <ThemeSwitch />
@@ -24,10 +24,10 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
         </div>
       </header>
       <main>
-        <div className="max-w-4xl px-8 mx-auto">{children}</div>
+        <div className="max-w-6xl px-8 mx-auto">{children}</div>
       </main>
       <footer className="py-8">
-        <div className="max-w-5xl px-8 mx-auto">
+        <div className="max-w-6xl px-8 mx-auto">
           Built by{' '}
           <a
             className="text-gray-900 dark:text-white"

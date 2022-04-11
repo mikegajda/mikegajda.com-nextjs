@@ -10,10 +10,10 @@ const Navigation = (): JSX.Element => {
         <a className={`${commonHeaderStyles} font-bold`}>Mike Gajda</a>
       </Link>
       <Link href="/posts/1">
-        <a className={`${commonHeaderStyles} px-6 py-4`}>Posts</a>
+        <a className={`${commonHeaderStyles} px-6 py-2`}>Posts</a>
       </Link>
       <Link href="/about">
-        <a className={`${commonHeaderStyles} px-6 py-4`}>About</a>
+        <a className={`${commonHeaderStyles} px-6 py-2`}>About</a>
       </Link>
     </nav>
   );

@@ -8,12 +8,13 @@ import { getAllPosts } from '../lib/api';
 import { PostType } from '../types/post';
 import groq from 'groq';
 import sanityClient from '../lib/sanityClient';
-
+import { SanityImageWrapper } from '../components/SanityImageWrapper';
 type IndexProps = {
   posts: PostType[];
+  sanityImages: any[];
 };
 
-export const Index = ({ posts }: IndexProps): JSX.Element => {
+export const Index = ({ posts, sanityImages }: IndexProps): JSX.Element => {
   return (
     <Layout>
       {/* <ImagekitImage
@@ -22,17 +23,24 @@ export const Index = ({ posts }: IndexProps): JSX.Element => {
         height={844}
         alt={'Fox Theatre'}
       />
-      <div>test</div>
-      <div>test</div>
-      <div>test</div>
 
       <ImagekitImage
+        wrapperClassName="my-4"
+        src={'DSCF2004_9Dl0giw35.jpeg'}
+        title={'Fox Theatre'}
+      />
+
+      <ImagekitImage
+        wrapperClassName="my-2"
         src={'DSCF2693_C5oeBk_LE.jpeg'}
         width={4160}
         height={6240}
         alt={'Fox Theatre'}
       /> */}
 
+      {sanityImages.map((image) => (
+        <SanityImageWrapper key={image.url} sanityImage={image} />
+      ))}
       {posts.map((post) => (
         <article
           key={post.slug}
@@ -74,7 +82,7 @@ export const Index = ({ posts }: IndexProps): JSX.Element => {
 export const getStaticProps: GetStaticProps = async () => {
   const posts = getAllPosts();
 
-  const sanityPosts = await sanityClient.fetch(groq`
+  const sanityImages = await sanityClient.fetch(groq`
   *[_type == "imageWrapper"]{
     name,
     "slug": slug.current,
@@ -84,15 +92,12 @@ export const getStaticProps: GetStaticProps = async () => {
   
     `);
 
+  // console.log(sanityImages);
   return {
     props: {
       posts,
-      sanityPosts,
+      sanityImages,
     },
-  };
-
-  return {
-    props: { posts },
   };
 };
 
