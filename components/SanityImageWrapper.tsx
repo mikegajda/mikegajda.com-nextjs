@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import MapChart from '../components/Map';
 
 const sanityDynamicLoader = ({ src, width }): string => {
   const url = `${src}?w=${width}`;
@@ -19,9 +20,9 @@ type SanityImage = {
       ShutterSpeedValue: number;
       FocalLength: number;
     };
-    location: {
-      lng: string;
-      lat: string;
+    location?: {
+      lng: number;
+      lat: number;
     };
     lqip;
   };
@@ -106,11 +107,16 @@ export const SanityImageWrapper = ({
               </p>
             </>
           )}
-          {/* <div className="w-36 mt-2 rounded-md overflow-hidden border-2">
-            <MapChart
-              coordinates={data ? exifCoordsToMapCoords(data) : undefined}
-            />
-          </div> */}
+          {sanityImage.metadata.location && (
+            <div className="w-36 mt-2 rounded-md overflow-hidden border-2">
+              <MapChart
+                coordinates={[
+                  sanityImage.metadata.location.lng,
+                  sanityImage.metadata.location.lat,
+                ]}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
