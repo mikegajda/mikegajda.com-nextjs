@@ -8,10 +8,17 @@ const sanityDynamicLoader = ({ src, width }): string => {
 
 type SanityImage = {
   assetId: string;
-  name: string;
+  title: string;
   slug: string;
+  altText: string;
+  caption: string;
   url: string;
   metadata: {
+    dimensions: {
+      height: number;
+      width: number;
+      aspectRatio: number;
+    };
     exif: {
       ExposureTime: number;
       FNumber: string;
@@ -46,39 +53,29 @@ export const SanityImageWrapper = ({
 }: SanityImageWrapperProps) => {
   return (
     <div className={wrapperClassName ? wrapperClassName : ''}>
-      {sanityImage.name && <h1 className="mb-2">{sanityImage.name}</h1>}
-      <div className="flex flex-row md:flex-none space-x-4">
+      {sanityImage.title && (
+        <h1 className="mb-2 px-2 md:px-0">{sanityImage.title}</h1>
+      )}
+      <div className="flex flex-col md:flex-row md:flex-none space-x-4">
         <div className="grow">
-          <div
-            className={
-              'bg-white p-4 aspect-[5/4] flex flex-col items-center justify-center  '
-            }
-          >
+          <div className={'bg-white p-4 aspect-[1/1] md:aspect-[5/4]'}>
             <div className={`relative h-full w-full`}>
               <Image
                 loader={sanityDynamicLoader}
                 src={sanityImage.url}
-                alt={sanityImage.name}
+                alt={sanityImage.title}
                 layout={'fill'}
-                className="rounded-md overflow-hidden"
+                className=" overflow-hidden"
                 objectFit="contain"
                 sizes="75vw"
-                placeholder="blur"
-                blurDataURL={sanityImage.metadata.lqip}
               />
             </div>
           </div>
-          <p className="mt-2">
-            These stools were one of the biggest surprises while I was
-            furnishing this apartment. They match the island almost perfectly,
-            despite not being part of the same set. They serve as both a primary
-            place to eat meals and as additional seating around the TV for big
-            groups.
-          </p>
+          <p className="mt-2 px-2 md:px-0">{sanityImage.caption}</p>
         </div>
-        <div className="flex-none sm:invisible md:visible">
+        <div className="hidden md:flex flex-row md:flex-col">
           {sanityImage.metadata.exif && (
-            <>
+            <div>
               <p className="text-sm mb-0">
                 <span className="font-semibold">Make </span>
                 Fujifilm
@@ -105,10 +102,10 @@ export const SanityImageWrapper = ({
                   sanityImage.metadata.exif.ExposureTime
                 )}
               </p>
-            </>
+            </div>
           )}
           {sanityImage.metadata.location && (
-            <div className="w-36 mt-2 rounded-md overflow-hidden border-2">
+            <div className="w-36 ml-2 md:mt-2 md:ml-0 rounded-md overflow-hidden border-2">
               <MapChart
                 coordinates={[
                   sanityImage.metadata.location.lng,
