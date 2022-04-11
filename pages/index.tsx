@@ -84,11 +84,11 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const sanityImages = await sanityClient.fetch(groq`
   *[_type == "imageWrapper"]{
-    name,
-    "slug": slug.current,
-    ...
-   image.asset->
-  }
+    ...image.asset->,
+    ...image,
+    "slug": image.slug.current,
+        }
+  
   
     `);
 
