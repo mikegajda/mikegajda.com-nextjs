@@ -1,6 +1,5 @@
 import useEmblaCarousel from 'embla-carousel-react';
 import { useState, useEffect, useCallback } from 'react';
-import { ImagekitImage } from './ImagekitImage';
 
 export default function Slider() {
   // emblaRef will be a reference to our carousel viewport
@@ -64,14 +63,7 @@ export default function Slider() {
               className="relative flex flex-none flex-wrap  w-full mx-10"
             >
               <div className="overflow-hidden cursor-pointer w-full"></div>
-              <div className="flex flex-col space-y-4 w-full">
-                <ImagekitImage
-                  src={'DSCF2693_C5oeBk_LE.jpeg'}
-                  width={4160}
-                  height={6240}
-                  alt={'Fox Theatre'}
-                />
-              </div>
+              <div className="flex flex-col space-y-4 w-full"></div>
             </div>
           ))}
         </div>
