@@ -71,7 +71,7 @@ export const SanityImageWrapper = ({
           </div>
           <p className="mt-2">{sanityImage.caption}</p>
         </div>
-        <div className="flex flex-row md:flex-col">
+        <div className="hidden md:flex flex-row md:flex-col">
           {sanityImage.metadata.exif && (
             <div>
               <p className="text-sm mb-0">
