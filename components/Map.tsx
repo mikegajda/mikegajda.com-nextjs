@@ -63,7 +63,7 @@ const MapChart = (props: MapProps) => {
           }
         </Geographies>
         {props.coordinates ? (
-          <Marker key={name} coordinates={props.coordinates}>
+          <Marker key={'test'} coordinates={props.coordinates}>
             <circle r={5} fill="#000" stroke="#fff" strokeWidth={1} />
           </Marker>
         ) : null}
