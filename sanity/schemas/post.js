@@ -23,14 +23,6 @@ export default {
       type: 'reference',
       to: { type: 'author' },
     },
-    {
-      name: 'mainImage',
-      title: 'Main image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    },
 
     {
       name: 'selectedImage',
@@ -51,8 +43,18 @@ export default {
     },
     {
       name: 'body',
+      type: 'array',
       title: 'Body',
-      type: 'blockContent',
+      of: [
+        {
+          type: 'block'
+        },
+        {
+          title: 'Image',
+          type: 'reference',
+          to: { type: 'imageWrapper' },
+        }
+      ],
     },
   ],
 

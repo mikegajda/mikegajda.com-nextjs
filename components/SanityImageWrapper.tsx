@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import MapChart from '../components/Map';
+import { PortableText } from '@portabletext/react';
+import { globalComponents } from './sanityComponents';
 
 const sanityDynamicLoader = ({ src, width }): string => {
   const url = `${src}?w=${width}`;
@@ -13,6 +15,7 @@ type SanityImage = {
   altText: string;
   caption: string;
   url: string;
+  content?: any[];
   metadata: {
     dimensions: {
       height: number;
@@ -115,6 +118,14 @@ export const SanityImageWrapper = ({
             </div>
           )}
         </div>
+      </div>
+      <div>
+        {sanityImage.content && (
+          <PortableText
+            value={sanityImage.content}
+            components={globalComponents}
+          />
+        )}
       </div>
     </div>
   );

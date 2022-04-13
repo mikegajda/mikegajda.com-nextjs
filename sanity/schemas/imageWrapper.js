@@ -43,6 +43,19 @@ export default {
           },
         },
         {
+          name: 'content',
+          type: 'array',
+          title: 'Content',
+          of: [
+            {
+              type: 'block'
+            },
+          ],
+          options: {
+            isHighlighted: true,
+          },
+        },
+        {
           name: 'slug',
           title: 'Slug',
           type: 'slug',
