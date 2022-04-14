@@ -1,4 +1,5 @@
 import { PortableTextComponents } from '@portabletext/react';
+import { SanityImageWrapper } from './SanityImageWrapper';
 export const globalComponents: PortableTextComponents = {
   block: {
     // Ex. 1: customizing common block types
@@ -16,5 +17,8 @@ export const globalComponents: PortableTextComponents = {
     // Ex. 1: customizing common list types
     bullet: ({ children }) => <ul className="list-disc">{children}</ul>,
     number: ({ children }) => <ol className="list-decimal">{children}</ol>,
+  },
+  types: {
+    imageWrapper: SanityImageWrapper,
   },
 };

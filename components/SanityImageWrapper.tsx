@@ -1,45 +1,16 @@
 import Image from 'next/image';
 import MapChart from '../components/Map';
-import { PortableText } from '@portabletext/react';
-import { globalComponents } from './sanityComponents';
+import { SanityImage } from '../types/post';
 
 const sanityDynamicLoader = ({ src, width }): string => {
   const url = `${src}?w=${width}`;
   return url;
 };
 
-type SanityImage = {
-  assetId: string;
-  title: string;
-  slug: string;
-  altText: string;
-  caption: string;
-  url: string;
-  content?: any[];
-  metadata: {
-    dimensions: {
-      height: number;
-      width: number;
-      aspectRatio: number;
-    };
-    exif: {
-      ExposureTime: number;
-      FNumber: string;
-      ISO: string;
-      LensModel: string;
-      ShutterSpeedValue: number;
-      FocalLength: number;
-    };
-    location?: {
-      lng: number;
-      lat: number;
-    };
-    lqip;
-  };
-};
 type SanityImageWrapperProps = {
-  sanityImage: SanityImage;
-  wrapperClassName?: string;
+  value: {
+    image: SanityImage;
+  };
 };
 
 export const exposureTimeToReaableTime = (exposureTime: number) => {
@@ -50,23 +21,19 @@ export const exposureTimeToReaableTime = (exposureTime: number) => {
   }
 };
 
-export const SanityImageWrapper = ({
-  sanityImage,
-  wrapperClassName,
-}: SanityImageWrapperProps) => {
+export const SanityImageWrapper = ({ value }: SanityImageWrapperProps) => {
+  const { image } = value;
   return (
-    <div className={wrapperClassName ? wrapperClassName : ''}>
-      {sanityImage.title && (
-        <h1 className="mb-2 px-2 md:px-0">{sanityImage.title}</h1>
-      )}
+    <div className={''}>
+      {image.title && <h1 className="mb-2 px-2 md:px-0">{image.title}</h1>}
       <div className="flex flex-col md:flex-row md:flex-none space-x-4">
         <div className="grow">
           <div className={'bg-white p-4 aspect-[1/1] md:aspect-[5/4]'}>
             <div className={`relative h-full w-full`}>
               <Image
                 loader={sanityDynamicLoader}
-                src={sanityImage.url}
-                alt={sanityImage.title}
+                src={image.asset.url}
+                alt={image.title}
                 layout={'fill'}
                 className=" overflow-hidden"
                 objectFit="contain"
@@ -74,10 +41,10 @@ export const SanityImageWrapper = ({
               />
             </div>
           </div>
-          <p className="mt-2 px-2 md:px-0">{sanityImage.caption}</p>
+          <p className="mt-2 px-2 md:px-0">{image.caption}</p>
         </div>
         <div className="hidden md:flex flex-row md:flex-col">
-          {sanityImage.metadata.exif && (
+          {image.asset.metadata.exif && (
             <div>
               <p className="text-sm mb-0">
                 <span className="font-semibold">Make </span>
@@ -89,43 +56,35 @@ export const SanityImageWrapper = ({
               </p>
               <p className="text-sm mb-0">
                 <span className="font-semibold">Focal Length </span>
-                {Math.round(sanityImage.metadata.exif.FocalLength * 1.5)}mm
+                {Math.round(image.asset.metadata.exif.FocalLength * 1.5)}mm
               </p>
               <p className="text-sm mb-0">
                 <span className="font-semibold">Aperture </span>
-                {sanityImage.metadata.exif.FNumber}
+                {image.asset.metadata.exif.FNumber}
               </p>
               <p className="text-sm mb-0">
                 <span className="font-semibold">ISO </span>
-                {sanityImage.metadata.exif.ISO}
+                {image.asset.metadata.exif.ISO}
               </p>
               <p className="text-sm mb-0">
                 <span className="font-semibold">Shutter </span>
                 {exposureTimeToReaableTime(
-                  sanityImage.metadata.exif.ExposureTime
+                  image.asset.metadata.exif.ExposureTime
                 )}
               </p>
             </div>
           )}
-          {sanityImage.metadata.location && (
+          {image.asset.metadata.location && (
             <div className="w-36 ml-2 md:mt-2 md:ml-0 rounded-md overflow-hidden border-2">
               <MapChart
                 coordinates={[
-                  sanityImage.metadata.location.lng,
-                  sanityImage.metadata.location.lat,
+                  image.asset.metadata.location.lng,
+                  image.asset.metadata.location.lat,
                 ]}
               />
             </div>
           )}
         </div>
-      </div>
-      <div>
-        {sanityImage.content && (
-          <PortableText
-            value={sanityImage.content}
-            components={globalComponents}
-          />
-        )}
       </div>
     </div>
   );

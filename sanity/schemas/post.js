@@ -25,8 +25,8 @@ export default {
     },
 
     {
-      name: 'selectedImage',
-      title: 'Selected image',
+      name: 'coverImage',
+      title: 'Cover Image',
       type: 'reference',
       to: { type: 'imageWrapper' },
     },
