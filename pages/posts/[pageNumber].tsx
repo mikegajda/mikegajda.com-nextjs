@@ -1,13 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import Layout from '../../components/Layout';
-import { getSortedFilteredPaginatedPosts } from '../../lib/api';
-import { PostType } from '../../types/post';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
-
-type Props = {
-  paginatedPosts: PostType[][];
-};
+import Index, { getStaticPropsForPaginatedPage } from '..';
 
 type PageNavigationProps = {
   currentPage: number;
@@ -19,20 +12,25 @@ export const PageNavigation = (props: PageNavigationProps): JSX.Element => {
   const buttonClass =
     'font-bold py-2 px-4 rounded bg-emerald-500 text-white hover:text-white hover:bg-emerald-600';
   const previousNotAllowedClass =
-    props.currentPage === 1
+    props.currentPage === 0
       ? 'bg-gray-400 hover:bg-gray-400 cursor-not-allowed'
       : '';
 
   const nextNotAllowed =
-    props.currentPage === props.totalPages
+    props.currentPage === props.totalPages - 1
       ? 'bg-gray-400 hover:bg-gray-400 cursor-not-allowed'
       : '';
+
+  const previousPageHref =
+    props.currentPage - 1 == 0 ? '/' : `/${props.basePath}/[pageNumber]`;
+
+  const previousPageAs =
+    props.currentPage - 1 == 0
+      ? '/'
+      : `/${props.basePath}/${props.currentPage - 1}`;
   return (
     <div className={'clear-both'}>
-      <Link
-        href={`/${props.basePath}/[pageNumber]`}
-        as={`/${props.basePath}/${props.currentPage - 1}`}
-      >
+      <Link href={previousPageHref} as={previousPageAs}>
         <a className={`${buttonClass} ${previousNotAllowedClass} float-left`}>
           Previous
         </a>
@@ -47,43 +45,26 @@ export const PageNavigation = (props: PageNavigationProps): JSX.Element => {
   );
 };
 
-export const PaginatedPosts = ({ paginatedPosts }: Props): JSX.Element => {
-  const router = useRouter();
-  const pageNumber = parseInt(router.query.pageNumber.toString());
-  const indexNumber = pageNumber - 1;
-  return (
-    <Layout>
-      {paginatedPosts[indexNumber].map((post) => (
-        <h1 key={post.slug}>{post.title}</h1>
-      ))}
-      <PageNavigation
-        currentPage={pageNumber}
-        totalPages={paginatedPosts.length}
-        basePath="posts"
-      />
-    </Layout>
-  );
+export const PaginatedPosts = (props): JSX.Element => {
+  return <Index {...props} />;
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  const paginatedPosts = getSortedFilteredPaginatedPosts(
-    (page) => page.type === 'post'
+export const getStaticProps: GetStaticProps = async (context) => {
+  return getStaticPropsForPaginatedPage(
+    parseInt(context.params.pageNumber.toString())
   );
-
-  return {
-    props: { paginatedPosts },
-  };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const posts = getSortedFilteredPaginatedPosts((page) => page.type === 'post');
+  const { props } = await getStaticPropsForPaginatedPage(0);
+  const range = [...Array(props.countOfPages).keys()];
   // we just need to iterate over the paginated groups
   // and get their indexes, as these will be fed into
   // the paths as [pageNumber]
-  const paths = posts.map((post, index) => {
+  const paths = range.map((post, index) => {
     return {
       params: {
-        pageNumber: (index + 1).toString(),
+        pageNumber: index.toString(),
       },
     };
   });

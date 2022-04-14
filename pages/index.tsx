@@ -4,13 +4,20 @@ import Link from 'next/link';
 import React from 'react';
 import Layout from '../components/Layout';
 import { PostType } from '../types/post';
-import groq from 'groq';
-import sanityClient from '../lib/sanityClient';
 import { PortableText } from '@portabletext/react';
 import { globalComponents } from '../components/sanityComponents';
-type IndexProps = {
+import {
+  getCountOfAllPosts,
+  getPosts,
+  MAX_POSTS_PER_PAGE,
+} from '../lib/sanityApi';
+import { PageNavigation } from './posts/[pageNumber]';
+
+export type IndexProps = {
+  pageNumber: number;
   posts: PostType[];
-  sanityImages: any[];
+  countOfAllPosts: number;
+  countOfPages: number;
 };
 
 export const Post = (post: PostType): JSX.Element => {
@@ -41,50 +48,45 @@ export const Post = (post: PostType): JSX.Element => {
   );
 };
 
-export const Index = ({ posts }: IndexProps): JSX.Element => {
+export const Index = ({
+  posts,
+  pageNumber,
+  countOfPages,
+}: IndexProps): JSX.Element => {
   return (
     <Layout>
       {posts.map((post) => (
         <Post key={post.slug.current} {...post} />
       ))}
+      <PageNavigation
+        currentPage={pageNumber}
+        totalPages={countOfPages}
+        basePath="posts"
+      />
     </Layout>
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  const posts = await sanityClient.fetch(
-    groq`
-    *[_type == "post"]{
-      ...,
-      body[]{
-       _type == 'reference' => @->{
-        _type == 'imageWrapper' => {
-        ...,
-        'image': {
-          ...image,
-         'asset': image.asset->
-         }
-        },
-        _type != 'imageWrapper' => @,
-       },
-      _type != 'reference' => @
-      },
-    coverImage->{
-     ...,
-     'image': {
-      ...image,
-      'asset': image.asset->
-      }
-     },
-    author->,
-    }`
+export const getStaticPropsForPaginatedPage = async (pageNumber: number) => {
+  const posts = await getPosts(
+    pageNumber * MAX_POSTS_PER_PAGE,
+    pageNumber * MAX_POSTS_PER_PAGE + MAX_POSTS_PER_PAGE
   );
+  const countOfAllPosts = await getCountOfAllPosts();
 
+  const countOfPages = Math.ceil(countOfAllPosts / MAX_POSTS_PER_PAGE);
   return {
     props: {
+      pageNumber,
       posts,
+      countOfAllPosts,
+      countOfPages,
     },
   };
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  return await getStaticPropsForPaginatedPage(0);
 };
 
 export default Index;
