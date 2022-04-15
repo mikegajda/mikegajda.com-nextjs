@@ -36,7 +36,7 @@ export const Post = ({ post, index }: PostProps): JSX.Element => {
 
         <div className="">
           <h1 className="mb-8 text-3xl">
-            <Link as={`/${post.slug.current}`} href={`/[slug]`}>
+            <Link as={`/post/${post.slug.current}`} href={`/post/[slug]`}>
               <a className="underline-offset-8">{post.title}</a>
             </Link>
           </h1>
@@ -61,11 +61,13 @@ export const Index = ({
       {posts.map((post, index) => (
         <Post key={post.slug.current} post={post} index={index} />
       ))}
-      <PageNavigation
-        currentPage={pageNumber}
-        totalPages={countOfPages}
-        basePath="posts"
-      />
+      {countOfPages > 0 && (
+        <PageNavigation
+          currentPage={pageNumber}
+          totalPages={countOfPages}
+          basePath="posts"
+        />
+      )}
     </Layout>
   );
 };
