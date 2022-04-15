@@ -47,3 +47,45 @@ export const getPosts = async (start, end) => {
     { start, end }
   );
 };
+
+export const getAllPostSlugs = async () => {
+  return await client.fetch(
+    groq`
+        *[_type == "post"] | order(publishedAt desc) {
+          'slug': slug.current
+        }`
+  );
+};
+
+export const getPostForSlug = async (slug: string) => {
+  return await client.fetch(
+    groq`
+        *[_type == "post" && slug.current == $slug] {
+          ...,
+          body[]{
+           _type == 'reference' => @->{
+            _type == 'imageWrapper' => {
+            ...,
+            'image': {
+              ...image,
+             'asset': image.asset->
+             }
+            },
+            _type != 'imageWrapper' => @,
+           },
+          _type != 'reference' => @
+          },
+        coverImage->{
+         ...,
+         'image': {
+          ...image,
+          'asset': image.asset->
+          }
+         },
+        author->,
+        }`,
+    {
+      slug,
+    }
+  );
+};
