@@ -1,7 +1,7 @@
 import sanityClient from '@sanity/client';
 import groq from 'groq';
 
-export const MAX_POSTS_PER_PAGE = 3;
+export const MAX_POSTS_PER_PAGE = 2;
 
 const client = sanityClient({
   projectId: '0zzwwluw', // you can find this in sanity.json

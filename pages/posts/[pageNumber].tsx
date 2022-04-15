@@ -29,7 +29,7 @@ export const PageNavigation = (props: PageNavigationProps): JSX.Element => {
       ? '/'
       : `/${props.basePath}/${props.currentPage - 1}`;
   return (
-    <div className={'clear-both max-w-6xl mx-auto my-4 h-8'}>
+    <div className={'clear-both max-w-6xl mx-auto p-2 md:px-4 my-4 h-8'}>
       <Link href={previousPageHref} as={previousPageAs}>
         <a className={`${buttonClass} ${previousNotAllowedClass} float-left`}>
           Previous

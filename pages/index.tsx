@@ -27,11 +27,8 @@ export interface PostProps {
 export const Post = ({ post, index }: PostProps): JSX.Element => {
   const background = index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200';
   return (
-    <article
-      key={post.slug.current}
-      className={`p-2 py-4 md:px-4 ${background}`}
-    >
-      <div className={'max-w-6xl mx-auto'}>
+    <article key={post.slug.current} className={` ${background}`}>
+      <div className={'max-w-6xl mx-auto p-2 py-4 md:px-4'}>
         <div className="text-sm mb-1 text-gray-600">
           {post.author && <span>{post.author.name} - </span>}
           {format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}
