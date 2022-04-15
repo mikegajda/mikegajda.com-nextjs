@@ -20,29 +20,35 @@ export type IndexProps = {
   countOfPages: number;
 };
 
-export const Post = (post: PostType): JSX.Element => {
+export interface PostProps {
+  post: PostType;
+  index: number;
+}
+export const Post = ({ post, index }: PostProps): JSX.Element => {
+  const background = index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200';
   return (
     <article
       key={post.slug.current}
-      className="mt-8 rounded-lg border-2 border-gray-300 overflow-hidden shadow-[0_.15rem_.5rem_rgba(0,0,0,0.15)]"
+      className={`p-2 py-4 md:px-4 ${background}`}
     >
-      <div className="bg-gray-200 p-3 text-sm text-gray-500 dark:text-gray-400">
-        {format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}
-      </div>
+      <div className={'max-w-6xl mx-auto'}>
+        <div className="text-sm mb-1 text-gray-600">
+          {post.author && <span>{post.author.name} - </span>}
+          {format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}
+        </div>
 
-      <div className="p-3">
-        <h1 className="mb-2 text-3xl">
-          <Link as={`/${post.slug.current}`} href={`/[slug]`}>
-            <a className="text-gray-900 dark:text-white dark:hover:text-emerald-400 ">
-              {post.title}
-            </a>
-          </Link>
-        </h1>
-      </div>
-      <div>
-        {post.body && (
-          <PortableText value={post.body} components={globalComponents} />
-        )}
+        <div className="">
+          <h1 className="mb-8 text-3xl">
+            <Link as={`/${post.slug.current}`} href={`/[slug]`}>
+              <a className="underline-offset-8">{post.title}</a>
+            </Link>
+          </h1>
+        </div>
+        <div>
+          {post.body && (
+            <PortableText value={post.body} components={globalComponents} />
+          )}
+        </div>
       </div>
     </article>
   );
@@ -55,8 +61,8 @@ export const Index = ({
 }: IndexProps): JSX.Element => {
   return (
     <Layout>
-      {posts.map((post) => (
-        <Post key={post.slug.current} {...post} />
+      {posts.map((post, index) => (
+        <Post key={post.slug.current} post={post} index={index} />
       ))}
       <PageNavigation
         currentPage={pageNumber}

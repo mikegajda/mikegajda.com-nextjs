@@ -16,18 +16,18 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
     <>
       <Head customMeta={customMeta} />
       <header className="bg-emerald-400 mb-2">
-        <div className="max-w-6xl px-2 md:px-4 mx-auto">
-          <div className="flex items-center justify-between py-2">
+        <div className="max-w-6xl mx-auto p-2 py-1 md:px-4 lg:px-0">
+          <div className="flex items-center justify-between py-1">
             <Navigation />
             <ThemeSwitch />
           </div>
         </div>
       </header>
       <main>
-        <div className="max-w-6xl md:px-4 mx-auto">{children}</div>
+        <div className="mx-auto">{children}</div>
       </main>
-      <footer className="py-8">
-        <div className="max-w-6xl px-8 mx-auto">
+      <footer className="py-4">
+        <div className="max-w-6xl mx-auto">
           Built by{' '}
           <a
             className="text-gray-900 dark:text-white"
