@@ -25,7 +25,7 @@ export const SanityImageWrapper = ({ value }: SanityImageWrapperProps) => {
   const { image } = value;
   return (
     <div className={''}>
-      {image.title && <h1 className="mb-2 px-2 md:px-0">{image.title}</h1>}
+      {image.title && <h2 className="mb-2 px-2 md:px-0">{image.title}</h2>}
       <div className="flex flex-col md:flex-row md:flex-none space-x-4">
         <div className="grow">
           <div className={'bg-white p-4 aspect-[1/1] md:aspect-[5/4]'}>

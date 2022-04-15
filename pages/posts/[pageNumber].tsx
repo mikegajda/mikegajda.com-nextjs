@@ -10,7 +10,7 @@ type PageNavigationProps = {
 
 export const PageNavigation = (props: PageNavigationProps): JSX.Element => {
   const buttonClass =
-    'font-bold py-2 px-4 rounded bg-emerald-500 text-white hover:text-white hover:bg-emerald-600';
+    'font-bold py-2 px-4 rounded bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 no-underline';
   const previousNotAllowedClass =
     props.currentPage === 0
       ? 'bg-gray-400 hover:bg-gray-400 cursor-not-allowed'
@@ -29,7 +29,7 @@ export const PageNavigation = (props: PageNavigationProps): JSX.Element => {
       ? '/'
       : `/${props.basePath}/${props.currentPage - 1}`;
   return (
-    <div className={'clear-both'}>
+    <div className={'clear-both max-w-6xl mx-auto my-4 h-8'}>
       <Link href={previousPageHref} as={previousPageAs}>
         <a className={`${buttonClass} ${previousNotAllowedClass} float-left`}>
           Previous
