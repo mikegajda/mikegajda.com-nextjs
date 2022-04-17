@@ -5,9 +5,10 @@ import { unfurl } from 'unfurl.js';
 import { Metadata } from 'unfurl.js/dist/types';
 import * as Jimp from 'jimp';
 import { cleanUrl, getHashOfUrl } from '../../../utils/urlUtils';
+import { createOrUpdateLink } from '../../../lib/sanityApi';
 
-const awsKeyId = process.env.AWS_KEY_ID;
-const awsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+const awsKeyId = process.env.MG_AWS_KEY_ID;
+const awsSecretAccessKey = process.env.MG_AWS_SECRET_ACCESS_KEY;
 
 const BUCKET = 'cdn.mikegajda.com';
 
@@ -114,6 +115,13 @@ export const getImageUrlFromOpenGraph = (og: Metadata): string => {
 
 export const getFreshOpenGraphInfo = async (url: string) => {
   const openGraphInfo = await getOpenGraphInfo(url);
+  await createOrUpdateLink({
+    _type: 'link',
+    _id: getHashOfUrl(url),
+    url: cleanUrl(url),
+    title: openGraphInfo.title || cleanUrl(url),
+    description: openGraphInfo.description || '',
+  });
   try {
     const imageUrl = getImageUrlFromOpenGraph(openGraphInfo);
     const imageBuffer = await readImageFromUrlToBuffer(imageUrl);

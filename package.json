@@ -30,6 +30,7 @@
   "dependencies": {
     "@portabletext/react": "^1.0.6",
     "@sanity/client": "^3.3.0",
+    "@sanity/uuid": "^3.0.1",
     "aws-sdk": "^2.1116.0",
     "date-fns": "^2.19.0",
     "embla-carousel": "^6.2.0",
