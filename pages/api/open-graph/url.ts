@@ -1,11 +1,10 @@
-import { URL } from 'url';
 import AWS from 'aws-sdk';
 import potrace from 'potrace';
 import { optimize } from 'svgo';
-import stringHash from 'string-hash';
 import { unfurl } from 'unfurl.js';
 import { Metadata } from 'unfurl.js/dist/types';
 import * as Jimp from 'jimp';
+import { cleanUrl, getHashOfUrl } from '../../../utils/urlUtils';
 
 const awsKeyId = process.env.AWS_KEY_ID;
 const awsSecretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
@@ -17,13 +16,18 @@ const s3 = new AWS.S3({
   secretAccessKey: awsSecretAccessKey,
 });
 
-async function uploadBufferToAmazon(buffer, filename) {
+async function uploadBufferToAmazon(
+  buffer,
+  filename,
+  contentType = 'image/jpeg'
+) {
   // Setting up S3 upload parameters
   const params = {
     Bucket: BUCKET,
     Key: filename, // File name you want to save as in S3
     Body: buffer,
     ACL: 'public-read',
+    ContentType: contentType,
   };
 
   return new Promise((resolve, reject) => {
@@ -66,20 +70,16 @@ async function createSvg(buffer: Buffer, params) {
           plugins: [
             {
               name: 'removeViewBox',
-              options: {
-                removeViewBox: false,
-              },
+              active: false,
             },
             {
               name: 'addAttributesToSVGElement',
-              options: {
-                addAttributesToSVGElement: {
-                  attributes: [
-                    {
-                      preserveAspectRatio: `none`,
-                    },
-                  ],
-                },
+              params: {
+                attributes: [
+                  {
+                    preserveAspectRatio: `none`,
+                  },
+                ],
               },
             },
           ],
@@ -94,16 +94,13 @@ export async function getOpenGraphInfo(url: string) {
   return await unfurl(url);
 }
 
-export const cleanUrl = (url: string): string => {
-  const parsedUrl = new URL(url);
-  const cleanUrl = `${parsedUrl.protocol}//${parsedUrl.host}${parsedUrl.pathname}`;
-  return cleanUrl;
-};
-
 export const readImageFromUrlToBuffer = async (
   url: string
 ): Promise<Buffer> => {
-  const image = await Jimp.read(url);
+  let image = await Jimp.read(url);
+  image = image.resize(500, Jimp.AUTO);
+  image = image.quality(80);
+
   return image.getBufferAsync('image/jpeg');
 };
 
@@ -121,28 +118,30 @@ export const getFreshOpenGraphInfo = async (url: string) => {
     const imageUrl = getImageUrlFromOpenGraph(openGraphInfo);
     const imageBuffer = await readImageFromUrlToBuffer(imageUrl);
     const svgBuffer = await createSvg(imageBuffer, {
-      background: '#33d399',
-      color: 'white',
-      turdSize: 200,
+      background: '#e5e7eb',
+      color: '#36d399',
+      turdSize: 50,
       optTolerance: 0.4,
-      threshold: 120,
+      threshold: potrace.Potrace.THRESHOLD_AUTO,
       turnPolicy: potrace.Potrace.TURNPOLICY_MAJORITY,
     });
     const awsResponse = await uploadBufferToAmazon(
       imageBuffer,
-      `${stringHash(url)}.jpg`
+      `${getHashOfUrl(url)}.jpg`
     );
 
     const awsResponse2 = await uploadBufferToAmazon(
       svgBuffer,
-      `${stringHash(url)}.svg`
+      `${getHashOfUrl(url)}.svg`,
+      'image/svg+xml'
     );
 
     // eslint-disable-next-line
     console.log('awsResponse', awsResponse);
     // eslint-disable-next-line
     console.log('awsResponse2', awsResponse2);
-  } catch {
+  } catch (e) {
+    console.error(e);
     // do nothing
   }
   return openGraphInfo;
@@ -150,7 +149,7 @@ export const getFreshOpenGraphInfo = async (url: string) => {
 
 export const processUrl = async (url: string, breakCache = true) => {
   url = cleanUrl(url);
-  const urlHash = stringHash(url);
+  const urlHash = getHashOfUrl(url);
 
   if (breakCache) {
     return await getFreshOpenGraphInfo(url);

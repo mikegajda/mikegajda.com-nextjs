@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import React from 'react';
 import Layout from '../components/Layout';
+import LinkPreview from '../components/LinkPreview';
 import { PostType } from '../types/post';
 import { PortableText } from '@portabletext/react';
 import { globalComponents } from '../components/sanityComponents';
@@ -58,6 +59,28 @@ export const Index = ({
 }: IndexProps): JSX.Element => {
   return (
     <Layout>
+      <div className="mx-auto p-2 py-4">
+        <LinkPreview
+          url={
+            'https://www.axios.com/zelensky-russia-ukraine-mariupol-putin-05cc553a-c6c2-4986-868e-405a7992173a.html'
+          }
+          title={'Zelensky: Russia, Ukraine, Mariupol: Putin'}
+          description={
+            'The approvals will help provide more certainty after fears that 5G signals could reduce the accuracy of certain equipment.'
+          }
+        />
+        <div className="flex flex-wrap">test</div>
+        <LinkPreview
+          url={
+            'https://www.nytimes.com/2022/04/17/us/politics/trump-mar-a-lago.html'
+          }
+          title={'Mar-a-Lago Machine: Trump as a Modern-Day Party Boss'}
+          description={
+            'Hoarding cash, doling out favors and seeking to crush rivals, the former president is dominating the G.O.P., preparing for another race and helping loyalists oust officials who thwarted his attempted subversion of the 2020 election.'
+          }
+        />
+      </div>
+
       {posts.map((post, index) => (
         <Post key={post.slug.current} post={post} index={index} />
       ))}

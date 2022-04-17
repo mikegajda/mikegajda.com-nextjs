@@ -1,4 +1,4 @@
-import { cleanUrl } from '../../../../pages/api/open-graph/url';
+import { cleanUrl } from '../../../../utils/urlUtils';
 
 test('url cleaning to be right', () => {
   expect(cleanUrl('https://test.com?abc=true')).toBe('https://test.com/');
