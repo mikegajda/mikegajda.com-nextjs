@@ -6,6 +6,7 @@ import Layout from '../components/Layout';
 import { PostType } from '../types/post';
 import { PortableText } from '@portabletext/react';
 import { globalComponents } from '../components/sanityComponents';
+import { SanityImageWrapper } from '../components/SanityImageWrapper';
 import {
   getCountOfAllPosts,
   getPosts,
@@ -41,6 +42,12 @@ export const Post = ({ post, index }: PostProps): JSX.Element => {
             </Link>
           </h1>
         </div>
+        {post.coverImage && (
+          <SanityImageWrapper
+            value={{ image: post.coverImage.image }}
+            showWhiteFrame={false}
+          />
+        )}
         <div>
           {post.body && (
             <PortableText value={post.body} components={globalComponents} />
