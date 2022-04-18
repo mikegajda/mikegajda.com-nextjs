@@ -20,7 +20,9 @@ export const globalComponents: PortableTextComponents = {
     number: ({ children }) => <ol className="list-decimal">{children}</ol>,
   },
   types: {
-    imageWrapper: SanityImageWrapper,
+    imageWrapper: ({ value }) => (
+      <SanityImageWrapper value={value} showExifMetadata={false} />
+    ),
     link: LinkPreview,
   },
 };

@@ -123,3 +123,28 @@ export const getPostForSlug = async (slug: string) => {
     }
   );
 };
+
+export const getAllImageSlugs = async () => {
+  return await client.fetch(
+    groq`
+        *[_type == "imageWrapper"] {
+          'slug': image.slug.current
+        }`
+  );
+};
+
+export const getImageForSlug = async (slug: string) => {
+  return await client.fetch(
+    groq`
+        *[_type == "imageWrapper" && image.slug.current == $slug] {
+          ...,
+          'image': {
+            ...image,
+           'asset': image.asset->
+           }
+          }`,
+    {
+      slug,
+    }
+  );
+};
