@@ -2,9 +2,11 @@ import Image from 'next/image';
 import { getHashOfUrl, getHostFromUrl } from '../utils/urlUtils';
 
 type LinkPreviewProps = {
-  url: string;
-  title: string;
-  description: string;
+  value: {
+    url: string;
+    title: string;
+    description: string;
+  };
 };
 
 const linkPreviewSvgLoader = ({ src }) => {
@@ -14,28 +16,31 @@ const linkPreviewSvgLoader = ({ src }) => {
   return url;
 };
 
-export default function LinkPreview({
-  url,
-  title,
-  description,
-}: LinkPreviewProps): JSX.Element {
+export default function LinkPreview({ value }: LinkPreviewProps): JSX.Element {
+  const { url, title, description } = value;
   return (
-    <div className="relative w-full max-w-xl aspect-[5/4] border-2 border-gray-200 flex flex-col rounded-md overflow-hidden">
-      <div className="relative h-3/5">
-        <Image
-          loader={linkPreviewSvgLoader}
-          layout={'fill'}
-          src={url}
-          className="overflow-hidden"
-          objectFit="cover"
-        />
+    <div
+      className={
+        'border-2 rounded-md overflow-hidden border-gray-200 max-w-lg '
+      }
+    >
+      <div className="relative w-full aspect-[5/3]  ">
+        <div className="relative h-full w-full">
+          <Image
+            loader={linkPreviewSvgLoader}
+            layout={'fill'}
+            src={url}
+            className="overflow-hidden"
+            objectFit="cover"
+          />
+        </div>
       </div>
-      <div className=" relative p-2">
-        <div className="text-sm text-gray-600">{getHostFromUrl(url)}</div>
-        <a className={'text-lg'} href={url}>
+      <div className="relative p-2">
+        <div className="text-xs text-gray-600">{getHostFromUrl(url)}</div>
+        <a className={'text-md sm:text-lg'} href={url}>
           {title}
         </a>
-        <div>{description}</div>
+        <div className={'text-sm'}>{description}</div>
       </div>
     </div>
   );

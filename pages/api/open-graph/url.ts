@@ -116,8 +116,6 @@ export const getImageUrlFromOpenGraph = (og: Metadata): string => {
 export const getFreshOpenGraphInfo = async (url: string) => {
   const openGraphInfo = await getOpenGraphInfo(url);
   await createOrUpdateLink({
-    _type: 'link',
-    _id: getHashOfUrl(url),
     url: cleanUrl(url),
     title: openGraphInfo.title || cleanUrl(url),
     description: openGraphInfo.description || '',
@@ -127,7 +125,7 @@ export const getFreshOpenGraphInfo = async (url: string) => {
     const imageBuffer = await readImageFromUrlToBuffer(imageUrl);
     const svgBuffer = await createSvg(imageBuffer, {
       background: '#e5e7eb',
-      color: '#36d399',
+      color: '#374151',
       turdSize: 50,
       optTolerance: 0.4,
       threshold: potrace.Potrace.THRESHOLD_AUTO,
