@@ -24,15 +24,17 @@ export default function LinkPreview({ value }: LinkPreviewProps): JSX.Element {
         'border-2 rounded-md overflow-hidden border-gray-200 max-w-lg '
       }
     >
-      <div className="relative w-full aspect-[5/3]  ">
+      <div className="relative w-full aspect-[5/3]">
         <div className="relative h-full w-full">
-          <Image
-            loader={linkPreviewSvgLoader}
-            layout={'fill'}
-            src={url}
-            className="overflow-hidden"
-            objectFit="cover"
-          />
+          <a href={url}>
+            <Image
+              loader={linkPreviewSvgLoader}
+              layout={'fill'}
+              src={url}
+              className="overflow-hidden"
+              objectFit="cover"
+            />
+          </a>
         </div>
       </div>
       <div className="relative p-2">
