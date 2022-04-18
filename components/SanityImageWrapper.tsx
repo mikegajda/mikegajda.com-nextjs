@@ -13,6 +13,7 @@ export type SanityImageWrapperProps = {
     image: SanityImage;
   };
   showExifMetadata?: boolean;
+  showWhiteFrame?: boolean;
 };
 
 export const exposureTimeToReaableTime = (exposureTime: number) => {
@@ -71,9 +72,54 @@ export const ExifMetadata = ({ image }: ExifMetadataProps) => {
   );
 };
 
+export const ImageWithWhiteFrame = ({ image }) => {
+  return (
+    <>
+      <div className={'bg-white p-4 aspect-[1/1] md:aspect-[5/4]'}>
+        <div className={`relative h-full w-full`}>
+          <Link as={`/image/${image.slug.current}`} href={`/image/[slug]`}>
+            <Image
+              loader={sanityDynamicLoader}
+              src={image.asset.url}
+              alt={image.title}
+              layout={'fill'}
+              className=" overflow-hidden"
+              objectFit="contain"
+              sizes="75vw"
+            />
+          </Link>
+        </div>
+      </div>
+      <p className="mt-2 px-2 md:px-0 italic text-center">{image.caption}</p>
+    </>
+  );
+};
+
+export const ImageWithoutWhiteFrame = ({ image }) => {
+  return (
+    <>
+      <div className={`relative `}>
+        <Link as={`/image/${image.slug.current}`} href={`/image/[slug]`}>
+          <Image
+            loader={sanityDynamicLoader}
+            src={image.asset.url}
+            alt={image.title}
+            width={image.asset.metadata.dimensions.width}
+            height={image.asset.metadata.dimensions.height}
+            layout={'responsive'}
+            className="overflow-hidden"
+            sizes="75vw"
+          />
+        </Link>
+      </div>
+      <p className="mt-2 px-2 md:px-0 italic text-center">{image.caption}</p>
+    </>
+  );
+};
 export const SanityImageWrapper = ({
   value,
   showExifMetadata,
+  showWhiteFrame,
 }: SanityImageWrapperProps) => {
   const { image } = value;
   return (
@@ -83,22 +129,11 @@ export const SanityImageWrapper = ({
       )}
       <div className="flex flex-col md:flex-row md:flex-none space-x-4">
         <div className="grow">
-          <div className={'bg-white p-4 aspect-[1/1] md:aspect-[5/4]'}>
-            <div className={`relative h-full w-full`}>
-              <Link as={`/image/${image.slug.current}`} href={`/image/[slug]`}>
-                <Image
-                  loader={sanityDynamicLoader}
-                  src={image.asset.url}
-                  alt={image.title}
-                  layout={'fill'}
-                  className=" overflow-hidden"
-                  objectFit="contain"
-                  sizes="75vw"
-                />
-              </Link>
-            </div>
-          </div>
-          <p className="mt-2 px-2 md:px-0">{image.caption}</p>
+          {showWhiteFrame ? (
+            <ImageWithWhiteFrame image={image} />
+          ) : (
+            <ImageWithoutWhiteFrame image={image} />
+          )}
         </div>
         {showExifMetadata && (
           <div className="hidden md:flex flex-row md:flex-col">

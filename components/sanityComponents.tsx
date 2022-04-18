@@ -6,7 +6,9 @@ export const globalComponents: PortableTextComponents = {
     // Ex. 1: customizing common block types
     h1: ({ children }) => <h1 className="text-2xl">{children}</h1>,
     blockquote: ({ children }) => (
-      <blockquote className="border-l-purple-500">{children}</blockquote>
+      <blockquote className="px-3 py-2 border-emerald-400 border-l-2 bg-gray-300 my-3 prose-blockquote ">
+        {children}
+      </blockquote>
     ),
 
     // Ex. 2: rendering custom styles

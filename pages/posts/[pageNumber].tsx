@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Link from 'next/link';
 import Index, { getStaticPropsForPaginatedPage } from '..';
+import { MAX_WIDTH_CLASS } from '../../components/Layout';
 
 type PageNavigationProps = {
   currentPage: number;
@@ -29,7 +30,9 @@ export const PageNavigation = (props: PageNavigationProps): JSX.Element => {
       ? '/'
       : `/${props.basePath}/${props.currentPage - 1}`;
   return (
-    <div className={'clear-both max-w-6xl mx-auto p-2 md:px-4 my-4 h-8'}>
+    <div
+      className={`clear-both ${MAX_WIDTH_CLASS} mx-auto p-2 md:px-4 my-4 h-8`}
+    >
       <Link href={previousPageHref} as={previousPageAs}>
         <a className={`${buttonClass} ${previousNotAllowedClass} float-left`}>
           Previous

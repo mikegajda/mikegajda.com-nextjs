@@ -11,12 +11,13 @@ type LayoutProps = {
 
 export const WEBSITE_HOST_URL = 'https://nextjs-typescript-mdx-blog.vercel.app';
 
+export const MAX_WIDTH_CLASS = 'max-w-3xl';
 const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
   return (
     <>
       <Head customMeta={customMeta} />
       <header className="bg-emerald-400 mb-2">
-        <div className="max-w-6xl mx-auto p-2 md:px-4">
+        <div className={`${MAX_WIDTH_CLASS} mx-auto p-2 md:px-4`}>
           <div className="flex items-center justify-between py-1">
             <Navigation />
             <ThemeSwitch />
@@ -26,7 +27,7 @@ const Layout = ({ children, customMeta }: LayoutProps): JSX.Element => {
       <main>
         <div className="mx-auto">{children}</div>
       </main>
-      <footer className="max-w-6xl mx-auto p-2 py-4 md:px-4">
+      <footer className={`${MAX_WIDTH_CLASS} mx-auto p-2 py-4 md:px-4`}>
         <div className="">
           Built by{' '}
           <a

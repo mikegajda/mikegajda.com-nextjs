@@ -4,6 +4,7 @@ export interface PostType extends SanityObject {
   publishedAt: string;
   title: string;
   slug: Slug;
+  coverImage?: ImageWrapper;
 }
 
 export interface Author extends SanityObject {

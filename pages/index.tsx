@@ -2,10 +2,11 @@ import { format, parseISO } from 'date-fns';
 import { GetStaticProps } from 'next';
 import Link from 'next/link';
 import React from 'react';
-import Layout from '../components/Layout';
+import Layout, { MAX_WIDTH_CLASS } from '../components/Layout';
 import { PostType } from '../types/post';
 import { PortableText } from '@portabletext/react';
 import { globalComponents } from '../components/sanityComponents';
+import { SanityImageWrapper } from '../components/SanityImageWrapper';
 import {
   getCountOfAllPosts,
   getPosts,
@@ -28,7 +29,7 @@ export const Post = ({ post, index }: PostProps): JSX.Element => {
   const background = index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200';
   return (
     <article key={post.slug.current} className={` ${background}`}>
-      <div className={'max-w-6xl mx-auto p-2 py-4 md:px-4'}>
+      <div className={`${MAX_WIDTH_CLASS} mx-auto p-2 py-4 md:px-4`}>
         <div className="text-sm mb-1 text-gray-600">
           {post.author && <span>{post.author.name} - </span>}
           {format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}
@@ -41,6 +42,12 @@ export const Post = ({ post, index }: PostProps): JSX.Element => {
             </Link>
           </h1>
         </div>
+        {post.coverImage && (
+          <SanityImageWrapper
+            value={{ image: post.coverImage.image }}
+            showWhiteFrame={false}
+          />
+        )}
         <div>
           {post.body && (
             <PortableText value={post.body} components={globalComponents} />
