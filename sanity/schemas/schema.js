@@ -10,6 +10,7 @@ import category from './category';
 import post from './post';
 import imageWrapper from './imageWrapper';
 import author from './author';
+import link from './link';
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -23,6 +24,7 @@ export default createSchema({
     imageWrapper,
     post,
     author,
+    link,
     category,
     // When added to this list, object types can be used as
     // { type: 'typename' } in other document schemas

@@ -50,10 +50,10 @@ export default {
           type: 'block'
         },
         {
-          title: 'Image',
+          title: 'Reference',
           type: 'reference',
-          to: { type: 'imageWrapper' },
-        }
+          to: [{ type: 'imageWrapper' }, {type: 'link'}],
+        },
       ],
     },
   ],

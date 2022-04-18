@@ -1,4 +1,5 @@
 import { PortableTextComponents } from '@portabletext/react';
+import LinkPreview from './LinkPreview';
 import { SanityImageWrapper } from './SanityImageWrapper';
 export const globalComponents: PortableTextComponents = {
   block: {
@@ -20,5 +21,6 @@ export const globalComponents: PortableTextComponents = {
   },
   types: {
     imageWrapper: SanityImageWrapper,
+    link: LinkPreview,
   },
 };
