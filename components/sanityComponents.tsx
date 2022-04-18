@@ -16,11 +16,17 @@ export const globalComponents: PortableTextComponents = {
   },
   list: {
     // Ex. 1: customizing common list types
-    bullet: ({ children }) => <ul className="list-disc">{children}</ul>,
-    number: ({ children }) => <ol className="list-decimal">{children}</ol>,
+    bullet: ({ children }) => (
+      <ul className="list-disc list-inside">{children}</ul>
+    ),
+    number: ({ children }) => (
+      <ol className="list-decimal list-inside">{children}</ol>
+    ),
   },
   types: {
-    imageWrapper: SanityImageWrapper,
+    imageWrapper: ({ value }) => (
+      <SanityImageWrapper value={value} showExifMetadata={false} />
+    ),
     link: LinkPreview,
   },
 };
