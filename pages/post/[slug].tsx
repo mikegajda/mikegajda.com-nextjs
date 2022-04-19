@@ -11,19 +11,22 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // comes back as an array
   const posts = await getPostForSlug(context.params.slug.toString());
 
+  const customMetadata: any = {
+    type: 'article',
+    title: posts[0].title,
+    date: posts[0].publishedAt,
+    description: toPlainText(posts[0].body).substring(0, 200),
+  };
+  if (posts[0].coverImage) {
+    customMetadata.image = `${posts[0].coverImage.image.asset.url}?w=1080`;
+  }
   return {
     props: {
       pageNumber: 0,
       posts,
       countOfAllPosts: 1,
       countOfPages: 0,
-      customMetadata: {
-        type: 'article',
-        title: posts[0].title,
-        image: `${posts[0].coverImage.image.asset.url}?w=1080`,
-        date: posts[0].publishedAt,
-        description: toPlainText(posts[0].body).substring(0, 200),
-      },
+      customMetadata,
     },
   };
 };
