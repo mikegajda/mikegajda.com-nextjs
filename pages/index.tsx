@@ -13,12 +13,14 @@ import {
   MAX_POSTS_PER_PAGE,
 } from '../lib/sanityApi';
 import { PageNavigation } from './posts/[pageNumber]';
+import { MetaProps } from '../types/layout';
 
 export type IndexProps = {
   pageNumber: number;
   posts: PostType[];
   countOfAllPosts: number;
   countOfPages: number;
+  customMetadata?: MetaProps;
 };
 
 export interface PostProps {
@@ -62,9 +64,10 @@ export const Index = ({
   posts,
   pageNumber,
   countOfPages,
+  customMetadata,
 }: IndexProps): JSX.Element => {
   return (
-    <Layout>
+    <Layout customMeta={customMetadata}>
       {posts.map((post, index) => (
         <Post key={post.slug.current} post={post} index={index} />
       ))}
