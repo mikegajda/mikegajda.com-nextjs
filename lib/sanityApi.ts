@@ -12,8 +12,6 @@ const client = sanityClient({
   useCdn: false, // `false` if you want to ensure fresh data
 });
 
-client.assets.upload('image', 'test', {});
-
 const authedClient = sanityClient({
   projectId: '0zzwwluw', // you can find this in sanity.json
   dataset: 'production', // or the name you chose in step 1
