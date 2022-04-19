@@ -1,6 +1,7 @@
 import sanityClient from '@sanity/client';
 import { uuid } from '@sanity/uuid';
 import groq from 'groq';
+import { DocumentsPageStaticProps } from '../types/props';
 
 export const MAX_POSTS_PER_PAGE = 2;
 
@@ -20,10 +21,17 @@ const authedClient = sanityClient({
 });
 
 export const getCountOfAllPosts = async (): Promise<number> => {
+  return await getCountOfDocumentsByType('post');
+};
+
+export const getCountOfDocumentsByType = async (
+  documentType: string
+): Promise<number> => {
   return await client.fetch(
     groq`
-    count(*[_type == "post"])
-    `
+    count(*[_type == $documentType])
+    `,
+    { documentType }
   );
 };
 
@@ -51,73 +59,60 @@ export const createOrUpdateLink = async (link: LinkType): Promise<any> => {
   });
 };
 
-export const getPosts = async (start, end) => {
+const commonPostFields = `{
+  ...,
+  body[]{
+   _type == 'reference' => @->{
+    _type == 'imageWrapper' => {
+    ...,
+    'image': {
+      ...image,
+     'asset': image.asset->
+     }
+    },
+    _type != 'imageWrapper' => @,
+   },
+  _type != 'reference' => @
+  },
+coverImage->{
+ ...,
+ 'image': {
+  ...image,
+  'asset': image.asset->
+  }
+ },
+author->,
+}`;
+
+export const getPostsBySlice = async (
+  start: number,
+  end: number
+): Promise<any[]> => {
   return await client.fetch(
     groq`
-        *[_type == "post"] | order(publishedAt desc) {
-          ...,
-          body[]{
-           _type == 'reference' => @->{
-            _type == 'imageWrapper' => {
-            ...,
-            'image': {
-              ...image,
-             'asset': image.asset->
-             }
-            },
-            _type != 'imageWrapper' => @,
-           },
-          _type != 'reference' => @
-          },
-        coverImage->{
-         ...,
-         'image': {
-          ...image,
-          'asset': image.asset->
-          }
-         },
-        author->,
-        }[$start...$end]`,
+        *[_type == "post"] | order(publishedAt desc) ${commonPostFields}[$start...$end]`,
     { start, end }
   );
 };
 
-export const getAllPostSlugs = async () => {
+export const getAllSlugsByDocumentType = async (documentType: string) => {
   return await client.fetch(
     groq`
-        *[_type == "post"] | order(publishedAt desc) {
+        *[_type == $documentType] {
           'slug': slug.current
-        }`
+        }`,
+    { documentType }
   );
+};
+
+export const getAllPostSlugs = async () => {
+  return await getAllSlugsByDocumentType('post');
 };
 
 export const getPostForSlug = async (slug: string) => {
   return await client.fetch(
     groq`
-        *[_type == "post" && slug.current == $slug] {
-          ...,
-          body[]{
-           _type == 'reference' => @->{
-            _type == 'imageWrapper' => {
-            ...,
-            'image': {
-              ...image,
-             'asset': image.asset->
-             }
-            },
-            _type != 'imageWrapper' => @,
-           },
-          _type != 'reference' => @
-          },
-        coverImage->{
-         ...,
-         'image': {
-          ...image,
-          'asset': image.asset->
-          }
-         },
-        author->,
-        }`,
+        *[_type == "post" && slug.current == $slug] ${commonPostFields}`,
     {
       slug,
     }
@@ -146,5 +141,40 @@ export const getImageForSlug = async (slug: string) => {
     {
       slug,
     }
+  );
+};
+
+export const getStaticPropsForDocumentsPage = async (
+  getDocumentsTotalCount: () => Promise<number>,
+  getDocuments: (pageStart, pageEnd) => Promise<any[]>,
+  maxDocumentsPerPage: number,
+  pageNumber: number
+) => {
+  const documents = await getDocuments(
+    pageNumber * maxDocumentsPerPage,
+    pageNumber * maxDocumentsPerPage + maxDocumentsPerPage
+  );
+
+  const documentsTotalCount = await getDocumentsTotalCount();
+
+  const pagesCount = Math.ceil(documentsTotalCount / MAX_POSTS_PER_PAGE);
+  return {
+    props: {
+      pageNumber,
+      documents,
+      documentsTotalCount,
+      pagesCount,
+    },
+  };
+};
+
+export const getStaticPropsForPostsPage = async (
+  pageNumber: number
+): Promise<DocumentsPageStaticProps> => {
+  return getStaticPropsForDocumentsPage(
+    getCountOfAllPosts,
+    getPostsBySlice,
+    MAX_POSTS_PER_PAGE,
+    pageNumber
   );
 };
