@@ -1,31 +1,30 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
-import Index, { IndexProps } from '..';
 import { toPlainText } from '../../components/sanityComponents';
 import { getAllPostSlugs, getPostForSlug } from '../../lib/sanityApi';
+import { PostsPage } from '../../components/documents/post';
+import { DocumentsPageStaticProps } from '../../types/props';
 
-export const SinglePost = (props: IndexProps): JSX.Element => {
-  return <Index {...props} />;
-};
-
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (
+  context
+): Promise<DocumentsPageStaticProps> => {
   // comes back as an array
-  const posts = await getPostForSlug(context.params.slug.toString());
+  const documents = await getPostForSlug(context.params.slug.toString());
 
   const customMetadata: any = {
     type: 'article',
-    title: posts[0].title,
-    date: posts[0].publishedAt,
-    description: toPlainText(posts[0].body).substring(0, 200),
+    title: documents[0].title,
+    date: documents[0].publishedAt,
+    description: toPlainText(documents[0].body).substring(0, 200),
   };
-  if (posts[0].coverImage) {
-    customMetadata.image = `${posts[0].coverImage.image.asset.url}?w=1080`;
+  if (documents[0].coverImage) {
+    customMetadata.image = `${documents[0].coverImage.image.asset.url}?w=1080`;
   }
   return {
     props: {
+      documents,
+      documentsTotalCount: 1,
       pageNumber: 0,
-      posts,
-      countOfAllPosts: 1,
-      countOfPages: 0,
+      pagesCount: 0,
       customMetadata,
     },
   };
@@ -50,4 +49,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export default SinglePost;
+export default PostsPage;
