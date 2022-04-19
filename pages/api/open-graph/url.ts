@@ -169,11 +169,17 @@ export const processUrl = async (url: string, breakCache = true) => {
 };
 
 export default async function handler(req: any, res: any) {
-  const {
-    query: { url },
-  } = req;
+  if (req.method === 'POST') {
+    const { url } = req.body;
+    const openGraphInfo = await processUrl(url);
+    res.status.json(openGraphInfo);
+  } else {
+    const {
+      query: { url },
+    } = req;
 
-  const result = await processUrl(url);
+    const result = await processUrl(url);
 
-  res.status(200).json(result);
+    res.status(200).json(result);
+  }
 }
