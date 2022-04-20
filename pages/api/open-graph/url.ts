@@ -172,7 +172,7 @@ export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
     const { url } = req.body;
     const openGraphInfo = await processUrl(url);
-    res.status.json(openGraphInfo);
+    res.status(200).json(openGraphInfo);
   } else {
     const {
       query: { url },
