@@ -9,16 +9,11 @@ type PageNavigationProps = {
 
 export const PageNavigation = (props: PageNavigationProps): JSX.Element => {
   const buttonClass =
-    'font-bold py-2 px-4 rounded bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 no-underline';
-  const previousNotAllowedClass =
-    props.currentPage === 0
-      ? 'bg-gray-400 hover:bg-gray-400 cursor-not-allowed'
-      : '';
+    'text-xl py-1 px-6 rounded bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 disabled:bg-gray-400 disabled:cursor-not-allowed';
 
-  const nextNotAllowed =
-    props.currentPage === props.totalPages - 1
-      ? 'bg-gray-400 hover:bg-gray-400 cursor-not-allowed'
-      : '';
+  const previousDisabled = props.currentPage === 0;
+
+  const nextDisabled = props.currentPage === props.totalPages - 1;
 
   const previousPageHref =
     props.currentPage - 1 == 0 ? '/' : `/${props.basePath}/[pageNumber]`;
@@ -29,18 +24,31 @@ export const PageNavigation = (props: PageNavigationProps): JSX.Element => {
       : `/${props.basePath}/${props.currentPage - 1}`;
   return (
     <div
-      className={`clear-both ${MAX_WIDTH_CLASS} mx-auto p-2 md:px-4 my-4 h-8`}
+      className={`${MAX_WIDTH_CLASS} mx-auto p-2 md:px-4 my-4 flex flex-row w-full h-full justify-between`}
     >
       <Link href={previousPageHref} as={previousPageAs}>
-        <a className={`${buttonClass} ${previousNotAllowedClass} float-left`}>
-          Previous
-        </a>
+        <button
+          disabled={previousDisabled}
+          className={`${buttonClass} float-left`}
+        >
+          ←
+        </button>
       </Link>
+      <div className={'my-2'}>
+        <span className="text-sm text-gray-500 ">
+          Page: {props.currentPage + 1}/{props.totalPages}
+        </span>
+      </div>
       <Link
         href={`/${props.basePath}/[pageNumber]`}
         as={`/${props.basePath}/${props.currentPage + 1}`}
       >
-        <a className={`${buttonClass}  ${nextNotAllowed} float-right`}>Next</a>
+        <button
+          disabled={nextDisabled}
+          className={`${buttonClass} float-right`}
+        >
+          →
+        </button>
       </Link>
     </div>
   );

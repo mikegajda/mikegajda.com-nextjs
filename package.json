@@ -34,6 +34,7 @@
     "aws-sdk": "^2.1116.0",
     "date-fns": "^2.19.0",
     "embla-carousel": "^6.2.0",
+    "embla-carousel-autoplay": "^6.2.0",
     "embla-carousel-react": "^6.2.0",
     "gray-matter": "^4.0.2",
     "groq": "^2.29.3",
