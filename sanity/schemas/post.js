@@ -52,7 +52,7 @@ export default {
         {
           title: 'Reference',
           type: 'reference',
-          to: [{ type: 'imageWrapper' }, {type: 'link'}],
+          to: [{ type: 'imageWrapper' }, {type: 'link'}, {type: 'gallery'}],
         },
       ],
     },

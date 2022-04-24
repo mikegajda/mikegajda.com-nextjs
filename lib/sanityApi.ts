@@ -70,7 +70,19 @@ const commonPostFields = `{
      'asset': image.asset->
      }
     },
-    _type != 'imageWrapper' => @,
+    _type == 'gallery' => {
+      images[]{
+        _type == 'reference' => @->{
+        ...,
+        'image': {
+          ...image,
+          'asset': image.asset->
+        }
+       }
+      },
+      "_type": "gallery"
+    },
+    _type != 'imageWrapper' && _type != 'gallery' => @,
    },
   _type != 'reference' => @
   },

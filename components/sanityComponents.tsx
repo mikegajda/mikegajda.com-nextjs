@@ -1,6 +1,7 @@
 import { PortableTextComponents } from '@portabletext/react';
 import LinkPreview from './LinkPreview';
 import { SanityImageWrapper } from './SanityImageWrapper';
+import Slider from './Slider';
 export const globalComponents: PortableTextComponents = {
   block: {
     // Ex. 1: customizing common block types
@@ -36,6 +37,9 @@ export const globalComponents: PortableTextComponents = {
       <SanityImageWrapper value={value} showExifMetadata={false} />
     ),
     link: LinkPreview,
+    gallery: ({ value }) => {
+      return <Slider value={value} />;
+    },
   },
 };
 

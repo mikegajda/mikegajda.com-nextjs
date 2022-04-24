@@ -1,7 +1,15 @@
 import useEmblaCarousel from 'embla-carousel-react';
 import { useState, useEffect, useCallback } from 'react';
+import { ImageWrapper } from '../types/post';
+import { SanityImageWrapper } from './SanityImageWrapper';
 
-export default function Slider() {
+export type SliderProps = {
+  value: {
+    images: ImageWrapper[];
+  };
+};
+
+export default function Slider(props: SliderProps) {
   // emblaRef will be a reference to our carousel viewport
   const [emblaRef, embla] = useEmblaCarousel({
     align: 'start',
@@ -51,19 +59,23 @@ export default function Slider() {
     embla.on('select', onSelect);
   }, [embla, setScrollSnaps, onSelect]);
 
-  const images = [1, 2];
-
   return (
     <div className="mx-auto max-w-6xl">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
-          {images.map((image) => (
+          {props.value.images.map((image) => (
             <div
-              key={image}
+              key={image.image.slug.current}
               className="relative flex flex-none flex-wrap  w-full mx-10"
             >
               <div className="overflow-hidden cursor-pointer w-full"></div>
-              <div className="flex flex-col space-y-4 w-full"></div>
+              <div className="flex flex-col space-y-4 w-full">
+                <SanityImageWrapper
+                  value={{
+                    image: image.image,
+                  }}
+                />
+              </div>
             </div>
           ))}
         </div>
