@@ -57,6 +57,13 @@ export default {
       ],
     },
   ],
+  initialValue: () => ({
+    publishedAt: (new Date()).toISOString(),
+    author: {
+      "_ref": "f431f769-fd2b-4b5f-863a-d2833e7dbf43",
+      "_type": "reference"
+    }
+  }),
 
   preview: {
     select: {
