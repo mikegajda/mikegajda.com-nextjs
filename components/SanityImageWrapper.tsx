@@ -75,7 +75,9 @@ export const ExifMetadata = ({ image }: ExifMetadataProps) => {
 export const ImageWithWhiteFrame = ({ image }) => {
   return (
     <>
-      <div className={'bg-white p-4 aspect-[1/1] md:aspect-[5/4]'}>
+      <div
+        className={'bg-white dark:bg-gray-200 p-4 aspect-[1/1] md:aspect-[5/4]'}
+      >
         <div className={`relative h-full w-full`}>
           <Link as={`/image/${image.slug.current}`} href={`/image/[slug]`}>
             <Image
