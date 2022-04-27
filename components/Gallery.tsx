@@ -11,7 +11,9 @@ export type GalleryProps = {
 };
 
 export const DotButton = ({ selected, onClick }) => {
-  const color = selected ? 'bg-emerald-500' : 'bg-gray-500';
+  const color = selected
+    ? 'bg-emerald-500 dark:bg-emerald-600'
+    : 'bg-gray-500 dark:bg-gray-300';
   return (
     <button
       className={`w-6 lg:w-9 h-2 rounded-xl mx-1 ${color}`}
@@ -21,22 +23,15 @@ export const DotButton = ({ selected, onClick }) => {
   );
 };
 
+const buttonClassName = `text-sm py-1 px-3 md:px-4 rounded bg-emerald-500 text-white disabled:bg-gray-500 disabled:cursor-not-allowed hover:bg-emerald-600 dark:disabled:bg-gray-300 dark:bg-emerald-600`;
 export const PrevButton = ({ enabled, onClick }) => (
-  <button
-    className="text-sm py-1 px-3 md:px-4 rounded bg-emerald-500 text-white disabled:bg-gray-500 disabled:cursor-not-allowed hover:bg-emerald-600"
-    onClick={onClick}
-    disabled={!enabled}
-  >
+  <button className={buttonClassName} onClick={onClick} disabled={!enabled}>
     {'←'}
   </button>
 );
 
 export const NextButton = ({ enabled, onClick }) => (
-  <button
-    className="text-sm py-1 px-3 md:px-4 rounded bg-emerald-500 text-white disabled:bg-gray-500 disabled:cursor-not-allowed hover:bg-emerald-600"
-    onClick={onClick}
-    disabled={!enabled}
-  >
+  <button className={buttonClassName} onClick={onClick} disabled={!enabled}>
     {'→'}
   </button>
 );

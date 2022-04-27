@@ -21,7 +21,7 @@ export default function LinkPreview({ value }: LinkPreviewProps): JSX.Element {
   return (
     <div
       className={
-        'border-2 rounded-md overflow-hidden border-gray-200 max-w-lg '
+        'border-2 rounded-md overflow-hidden border-gray-300 max-w-lg mb-2 '
       }
     >
       <div className="relative w-full aspect-[5/3]">
@@ -38,11 +38,13 @@ export default function LinkPreview({ value }: LinkPreviewProps): JSX.Element {
         </div>
       </div>
       <div className="relative p-2">
-        <div className="text-xs text-gray-600">{getHostFromUrl(url)}</div>
+        <div className="text-xs text-gray-600 dark:text-gray-200">
+          {getHostFromUrl(url)}
+        </div>
         <a className={'text-md sm:text-lg'} href={url}>
           {title}
         </a>
-        <div className={'text-sm'}>{description}</div>
+        <div className={'mt-2 text-sm'}>{description}</div>
       </div>
     </div>
   );

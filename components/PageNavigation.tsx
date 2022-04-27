@@ -9,7 +9,7 @@ type PageNavigationProps = {
 
 export const PageNavigation = (props: PageNavigationProps): JSX.Element => {
   const buttonClass =
-    'text-xl py-1 px-6 rounded bg-emerald-500 text-white hover:text-white hover:bg-emerald-600 disabled:bg-gray-400 disabled:cursor-not-allowed';
+    'text-xl py-1 px-6 rounded bg-emerald-500 dark:bg-emerald-600 dark:hover:bg-emerald-700 text-white hover:text-white hover:bg-emerald-600 disabled:bg-gray-400 dark:disabled:bg-gray-400 disabled:cursor-not-allowed';
 
   const previousDisabled = props.currentPage === 0;
 

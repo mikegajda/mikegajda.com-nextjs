@@ -14,11 +14,14 @@ export interface SinglePostProps {
   index: number;
 }
 export const Post = ({ post, index }: SinglePostProps): JSX.Element => {
-  const background = index % 2 === 0 ? 'bg-gray-100' : 'bg-gray-200';
+  const background =
+    index % 2 === 0
+      ? 'bg-gray-100 dark:bg-gray-500'
+      : 'bg-gray-200 dark:bg-gray-600';
   return (
     <article key={post.slug.current} className={` ${background}`}>
       <div className={`${MAX_WIDTH_CLASS} mx-auto p-2 py-4 md:px-4`}>
-        <div className="text-sm mb-1 text-gray-600">
+        <div className="text-sm mb-1 text-gray-600 dark:text-gray-200">
           {post.author && <span>{post.author.name} - </span>}
           {format(parseISO(post.publishedAt), 'MMMM dd, yyyy')}
         </div>

@@ -13,7 +13,7 @@ export const globalComponents: PortableTextComponents = {
     h6: ({ children }) => <h6 className="prose">{children}</h6>,
     p: ({ children }) => <p className="prose">{children}</p>,
     blockquote: ({ children }) => (
-      <blockquote className="px-3 py-2 border-emerald-400 border-l-2 bg-gray-300 my-3 prose-blockquote ">
+      <blockquote className="px-3 py-2 border-emerald-400 dark:border-emerald-600 border-l-2 bg-gray-300 my-3 prose-blockquote dark:bg-gray-800 ">
         {children}
       </blockquote>
     ),
