@@ -5,13 +5,6 @@ import { DocumentsPageStaticProps } from '../types/props';
 
 export const MAX_POSTS_PER_PAGE = 2;
 
-const client = sanityClient({
-  projectId: '0zzwwluw', // you can find this in sanity.json
-  dataset: 'production', // or the name you chose in step 1
-  apiVersion: '2021-04-17',
-  useCdn: false, // `false` if you want to ensure fresh data
-});
-
 const authedClient = sanityClient({
   projectId: '0zzwwluw', // you can find this in sanity.json
   dataset: 'production', // or the name you chose in step 1
@@ -27,7 +20,7 @@ export const getCountOfAllPosts = async (): Promise<number> => {
 export const getCountOfDocumentsByType = async (
   documentType: string
 ): Promise<number> => {
-  return await client.fetch(
+  return await authedClient.fetch(
     groq`
     count(*[_type == $documentType])
     `,
@@ -42,7 +35,7 @@ export type LinkType = {
 };
 
 export const createOrUpdateLink = async (link: LinkType): Promise<any> => {
-  const existingLink = await client.fetch(
+  const existingLink = await authedClient.fetch(
     groq`*[_type == "link" && url == $url]{_id}`,
     { url: link.url }
   );
@@ -100,7 +93,7 @@ export const getPostsBySlice = async (
   start: number,
   end: number
 ): Promise<any[]> => {
-  return await client.fetch(
+  return await authedClient.fetch(
     groq`
         *[_type == "post"] | order(publishedAt desc) ${commonPostFields}[$start...$end]`,
     { start, end }
@@ -108,7 +101,7 @@ export const getPostsBySlice = async (
 };
 
 export const getAllSlugsByDocumentType = async (documentType: string) => {
-  return await client.fetch(
+  return await authedClient.fetch(
     groq`
         *[_type == $documentType] {
           'slug': slug.current
@@ -122,7 +115,7 @@ export const getAllPostSlugs = async () => {
 };
 
 export const getPostForSlug = async (slug: string) => {
-  return await client.fetch(
+  return await authedClient.fetch(
     groq`
         *[_type == "post" && slug.current == $slug] ${commonPostFields}`,
     {
@@ -132,7 +125,7 @@ export const getPostForSlug = async (slug: string) => {
 };
 
 export const getAllImageSlugs = async () => {
-  return await client.fetch(
+  return await authedClient.fetch(
     groq`
         *[_type == "imageWrapper"] {
           'slug': image.slug.current
@@ -141,7 +134,7 @@ export const getAllImageSlugs = async () => {
 };
 
 export const getImageForSlug = async (slug: string) => {
-  return await client.fetch(
+  return await authedClient.fetch(
     groq`
         *[_type == "imageWrapper" && image.slug.current == $slug] {
           ...,
