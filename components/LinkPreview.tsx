@@ -16,6 +16,13 @@ const linkPreviewSvgLoader = ({ src }) => {
   return url;
 };
 
+const linkPreviewLoader = ({ src }) => {
+  const url = `https://s3.amazonaws.com/cdn.mikegajda.com/${getHashOfUrl(
+    src
+  )}.jpg`;
+  return url;
+};
+
 export default function LinkPreview({ value }: LinkPreviewProps): JSX.Element {
   const { url, title, description } = value;
   return (
@@ -28,11 +35,13 @@ export default function LinkPreview({ value }: LinkPreviewProps): JSX.Element {
         <div className="relative h-full w-full">
           <a href={url}>
             <Image
-              loader={linkPreviewSvgLoader}
+              loader={linkPreviewLoader}
               layout={'fill'}
               src={url}
               className="overflow-hidden"
               objectFit="cover"
+              placeholder="blur"
+              blurDataURL={linkPreviewSvgLoader({ src: url })}
             />
           </a>
         </div>

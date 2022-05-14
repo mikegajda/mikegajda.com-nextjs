@@ -27,7 +27,7 @@ export const Post = ({ post, index }: SinglePostProps): JSX.Element => {
         </div>
 
         <div className="">
-          <h1 className="mb-8 text-3xl">
+          <h1 className="mb-8 text-3xl leading-normal">
             <Link as={`/post/${post.slug.current}`} href={`/post/[slug]`}>
               <a className="underline-offset-8">{post.title}</a>
             </Link>

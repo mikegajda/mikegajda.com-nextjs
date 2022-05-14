@@ -99,8 +99,8 @@ export const readImageFromUrlToBuffer = async (
   url: string
 ): Promise<Buffer> => {
   let image = await Jimp.read(url);
-  image = image.resize(500, Jimp.AUTO);
-  image = image.quality(80);
+  image = image.resize(1000, Jimp.AUTO);
+  image = image.quality(90);
 
   return image.getBufferAsync('image/jpeg');
 };
