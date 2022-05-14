@@ -9,13 +9,6 @@ type LinkPreviewProps = {
   };
 };
 
-const linkPreviewSvgLoader = ({ src }) => {
-  const url = `https://s3.amazonaws.com/cdn.mikegajda.com/${getHashOfUrl(
-    src
-  )}.svg`;
-  return url;
-};
-
 const linkPreviewLoader = ({ src }) => {
   const url = `https://s3.amazonaws.com/cdn.mikegajda.com/${getHashOfUrl(
     src
@@ -40,8 +33,6 @@ export default function LinkPreview({ value }: LinkPreviewProps): JSX.Element {
               src={url}
               className="overflow-hidden"
               objectFit="cover"
-              placeholder="blur"
-              blurDataURL={linkPreviewSvgLoader({ src: url })}
             />
           </a>
         </div>
