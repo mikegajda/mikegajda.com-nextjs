@@ -98,7 +98,7 @@ export default function Gallery(props: GalleryProps) {
   }, [embla, setScrollSnaps, onSelect]);
 
   return (
-    <div className="mx-auto max-w-6xl">
+    <div className="mx-auto max-w-6xl my-2 pb-2">
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="flex">
           {props.value.images.map((image) => (
