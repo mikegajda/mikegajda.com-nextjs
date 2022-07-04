@@ -5,12 +5,24 @@ import Gallery from './Gallery';
 export const globalComponents: PortableTextComponents = {
   block: {
     // Ex. 1: customizing common block types
-    h1: ({ children }) => <h1 className="">{children}</h1>,
-    h2: ({ children }) => <h2 className="">{children}</h2>,
-    h3: ({ children }) => <h3 className="">{children}</h3>,
-    h4: ({ children }) => <h4 className="">{children}</h4>,
-    h5: ({ children }) => <h5 className="">{children}</h5>,
-    h6: ({ children }) => <h6 className="">{children}</h6>,
+    h1: ({ children }) => (
+      <h1 className="text-4xl font-semibold mb-2">{children}</h1>
+    ),
+    h2: ({ children }) => (
+      <h2 className="text-3xl font-semibold mb-2">{children}</h2>
+    ),
+    h3: ({ children }) => (
+      <h3 className="text-2xl font-semibold mb-2">{children}</h3>
+    ),
+    h4: ({ children }) => (
+      <h4 className="text-xl font-semibold mb-2">{children}</h4>
+    ),
+    h5: ({ children }) => (
+      <h5 className="text-lg font-semibold mb-2">{children}</h5>
+    ),
+    h6: ({ children }) => (
+      <h6 className="text-base font-semibold">{children}</h6>
+    ),
     p: ({ children }) => <p className="prose">{children}</p>,
     blockquote: ({ children }) => (
       <blockquote className="px-3 py-2 border-emerald-400 dark:border-emerald-600 border-l-2 bg-gray-300 my-3 prose-blockquote dark:bg-gray-800 ">
