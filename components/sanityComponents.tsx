@@ -41,8 +41,15 @@ export const globalComponents: PortableTextComponents = {
       <ul className="list-disc list-inside">{children}</ul>
     ),
     number: ({ children }) => (
-      <ol className="list-decimal list-inside">{children}</ol>
+      <ol className="list-decimal list-outside mb-2 pl-2">{children}</ol>
     ),
+  },
+  listItem: {
+    // Ex. 1: customizing common list types
+    bullet: ({ children }) => <li className="mb-2">{children}</li>,
+
+    // Ex. 2: rendering custom list items
+    checkmarks: ({ children }) => <li>✅ {children}</li>,
   },
   types: {
     imageWrapper: ({ value }) => (
